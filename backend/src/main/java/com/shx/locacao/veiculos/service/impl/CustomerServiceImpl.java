@@ -41,4 +41,14 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ObjectNotFoundException("Cliente não encontrado para o id informado");
         }
     }
+
+    @Override
+    public void deleteById(Integer id) {
+        try {
+            repository.deleteById(id);
+
+        }catch (IllegalArgumentException e){
+            throw new ObjectNotFoundException("Cliente não encontrado para o id informado");
+        }
+    }
 }

@@ -8,4 +8,6 @@ public interface CustomerRepository {
     Customer save(Customer c);
 
     Customer findById(Integer id);
+
+    void deleteById(Integer id);
 }

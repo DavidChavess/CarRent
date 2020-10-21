@@ -6,4 +6,6 @@ public interface CustomerService {
     CustomerDTO save(CustomerDTO dto);
 
     CustomerDTO getById(Integer id);
+
+    void deleteById(Integer id);
 }

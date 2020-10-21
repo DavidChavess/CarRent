@@ -89,6 +89,19 @@ public class CustomerContrrollerTest {
                 .andExpect(jsonPath("status").value(customer.getStatus()));
     }
 
+    @Test
+    @DisplayName("Deve deletar um cliente pelo id")
+    public void delteById() throws Exception {
+        // Faço a requisição delete na url localhost:8080/....customers/1
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .delete(API.concat("/") + 1);
+
+        // verifico se a requisição retornou status no content
+        mvc.perform(request)
+                .andExpect(status().isNoContent());
+    }
+
+
     public static CustomerDTO createCustomerDTO(Integer id, LocalDate birthdate){
         return new CustomerDTO(id, 11111111111L,"teste", birthdate, true);
     }

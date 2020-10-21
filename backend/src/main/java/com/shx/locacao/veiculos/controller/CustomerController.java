@@ -28,4 +28,10 @@ public class CustomerController {
     public CustomerDTO getById(@PathVariable Integer id){
         return service.getById(id);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Integer id){
+        service.deleteById(id);
+    }
 }

@@ -31,4 +31,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return entityManager.find(Customer.class, id);
     }
 
+
+    @Transactional
+    @Override
+    public void deleteById(Integer id) {
+        entityManager.remove( findById(id) );
+    }
+
 }

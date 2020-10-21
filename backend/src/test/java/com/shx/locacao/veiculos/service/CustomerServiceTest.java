@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomer;
 import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomerDTO;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -96,5 +96,15 @@ public class CustomerServiceTest {
 
         // verifico se retornou a mensagem corretamente
         assertThat(c).hasMessage("Cliente não encontrado para o id informado");
+    }
+
+    @Test
+    @DisplayName("Deve deletar um cliente pelo id")
+    public void deleteCustomerByIdTest(){
+        final Integer id = 1;
+
+        service.deleteById(id);
+
+        verify(repository).deleteById(id);
     }
 }
