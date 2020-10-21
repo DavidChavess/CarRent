@@ -1,0 +1,31 @@
+package com.shx.locacao.veiculos.controller;
+
+import com.shx.locacao.veiculos.dto.CustomerDTO;
+import com.shx.locacao.veiculos.model.Customer;
+import com.shx.locacao.veiculos.repository.CustomerRepository;
+import com.shx.locacao.veiculos.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/customers")
+public class CustomerController {
+
+    private CustomerService service;
+
+    public CustomerController(CustomerService service) {
+        this.service = service;
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public CustomerDTO save( @RequestBody CustomerDTO customerDTO){
+        return service.save(customerDTO);
+    }
+
+    @GetMapping("/{id}")
+    public CustomerDTO getById(@PathVariable Integer id){
+        return service.getById(id);
+    }
+}
