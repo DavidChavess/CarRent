@@ -18,6 +18,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomer;
 import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomerDTO;
@@ -106,5 +109,24 @@ public class CustomerServiceTest {
         service.deleteById(id);
 
         verify(repository).deleteById(id);
+    }
+
+    @Test
+    @DisplayName("Deve retornar todos os clientes da base")
+    public void getAllCustomersTest(){
+        List<Customer> customers = Arrays.asList(
+                createCustomer(1),
+                createCustomer(2)
+        );
+
+        // busco todos os clientes no banco
+        when(repository.findAll()).thenReturn(customers);
+
+        // chamo o metodo do meu service
+        List<CustomerDTO> l = service.getAll();
+
+        // verifico se retornou corretamente
+        assertThat(l).hasSize(2);
+        assertThat(l).isNotEmpty();
     }
 }

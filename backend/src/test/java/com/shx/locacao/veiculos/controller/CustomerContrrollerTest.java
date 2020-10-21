@@ -19,8 +19,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -99,6 +103,25 @@ public class CustomerContrrollerTest {
         // verifico se a requisição retornou status no content
         mvc.perform(request)
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Deve buscar todos os clientes")
+    public void getAll() throws Exception {
+        List<CustomerDTO> customers = Arrays.asList(
+                createCustomerDTO(1, LocalDate.now()),
+                createCustomerDTO(2, LocalDate.now()));
+
+        given(service.getAll()).willReturn(customers);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get(API)
+                .accept(MediaType.APPLICATION_JSON);
+
+        // Verifico se o objeto que retornou na resposta foi o mesmo que eu simulei
+        mvc.perform(request)
+                .andExpect(jsonPath("[0].id").value(1))
+                .andExpect(jsonPath("[1].id").value(2));
     }
 
 

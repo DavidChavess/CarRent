@@ -2,7 +2,7 @@ package com.shx.locacao.veiculos.repository;
 
 import com.shx.locacao.veiculos.model.Customer;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface CustomerRepository {
     Customer save(Customer c);
@@ -10,4 +10,6 @@ public interface CustomerRepository {
     Customer findById(Integer id);
 
     void deleteById(Integer id);
+
+    List<Customer> findAll();
 }

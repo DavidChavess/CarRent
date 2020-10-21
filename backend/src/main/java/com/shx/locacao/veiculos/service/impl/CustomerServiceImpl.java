@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -51,4 +54,12 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ObjectNotFoundException("Cliente não encontrado para o id informado");
         }
     }
+
+    @Override
+    public List<CustomerDTO> getAll() {
+        return repository.findAll().stream()
+                .map(c -> modelMapper.map(c, CustomerDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }

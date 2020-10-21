@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
@@ -31,11 +31,14 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return entityManager.find(Customer.class, id);
     }
 
-
     @Transactional
     @Override
     public void deleteById(Integer id) {
         entityManager.remove( findById(id) );
     }
 
+    @Override
+    public List<Customer> findAll(){
+        return entityManager.createQuery("SELECT c FROM Customer c", Customer.class).getResultList();
+    }
 }
