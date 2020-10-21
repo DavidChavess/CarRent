@@ -41,4 +41,10 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public List<Customer> findAll(){
         return entityManager.createQuery("SELECT c FROM Customer c", Customer.class).getResultList();
     }
+
+    @Transactional
+    @Override
+    public Customer update(Customer customer) {
+        return entityManager.merge(customer);
+    }
 }

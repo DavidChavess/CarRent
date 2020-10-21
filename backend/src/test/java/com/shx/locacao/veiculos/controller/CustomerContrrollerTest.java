@@ -95,7 +95,7 @@ public class CustomerContrrollerTest {
 
     @Test
     @DisplayName("Deve deletar um cliente pelo id")
-    public void delteById() throws Exception {
+    public void deleteById() throws Exception {
         // Faço a requisição delete na url localhost:8080/....customers/1
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .delete(API.concat("/") + 1);
@@ -123,6 +123,33 @@ public class CustomerContrrollerTest {
                 .andExpect(jsonPath("[0].id").value(1))
                 .andExpect(jsonPath("[1].id").value(2));
     }
+
+    @Test
+    @DisplayName("Deve atualizar um cliente")
+    public void update() throws Exception {
+        Integer id = 1;
+        CustomerDTO customerUpdated = createCustomerDTO(id, LocalDate.now());
+
+        given(service.update(any(Integer.class), any(CustomerDTO.class))).willReturn(customerUpdated);
+
+        // Json que envio na requisição
+        String json = new Gson().toJson(createCustomerDTO(null, null));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .put(API.concat("/" + id))
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        // Verifico se o objeto que retornou na resposta foi o mesmo que eu simulei
+        mvc.perform(request)
+                .andExpect(jsonPath("id").value(id))
+                .andExpect(jsonPath("cpf").value(customerUpdated.getCpf()))
+                .andExpect(jsonPath("birthdate").value(customerUpdated.getBirthdate().toString()))
+                .andExpect(jsonPath("name").value(customerUpdated.getName()))
+                .andExpect(jsonPath("status").value(customerUpdated.getStatus()));
+    }
+
 
 
     public static CustomerDTO createCustomerDTO(Integer id, LocalDate birthdate){

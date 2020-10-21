@@ -58,8 +58,25 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<CustomerDTO> getAll() {
         return repository.findAll().stream()
-                .map(c -> modelMapper.map(c, CustomerDTO.class))
-                .collect(Collectors.toList());
+            .map(c -> modelMapper.map(c, CustomerDTO.class))
+            .collect(Collectors.toList());
+}
+
+    @Override
+    public CustomerDTO update(Integer id, CustomerDTO customerDTO) {
+        try {
+            Customer customer = repository.findById(id);
+
+            customer.setStatus(customerDTO.getStatus());
+            customer.setName(customerDTO.getName());
+            customer.setCpf(customerDTO.getCpf());
+            customer.setBirthdate(customerDTO.getBirthdate());
+
+            return modelMapper.map( repository.update(customer), CustomerDTO.class);
+
+        } catch ( NullPointerException e ){
+            throw new ObjectNotFoundException("Cliente não encontrado para o id informado");
+        }
     }
 
 }

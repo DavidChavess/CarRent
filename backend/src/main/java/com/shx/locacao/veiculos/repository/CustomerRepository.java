@@ -12,4 +12,6 @@ public interface CustomerRepository {
     void deleteById(Integer id);
 
     List<Customer> findAll();
+
+    Customer update(Customer customer);
 }

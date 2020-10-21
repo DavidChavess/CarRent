@@ -12,4 +12,6 @@ public interface CustomerService {
     void deleteById(Integer id);
 
     List<CustomerDTO> getAll();
+
+    CustomerDTO update(Integer id, CustomerDTO customerDTO);
 }

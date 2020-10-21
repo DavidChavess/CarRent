@@ -41,4 +41,9 @@ public class CustomerController {
     public List<CustomerDTO> getAll(){
         return service.getAll();
     }
+
+    @PutMapping("/{id}")
+    public CustomerDTO update(@PathVariable Integer id, @RequestBody CustomerDTO customerDTO){
+        return service.update(id, customerDTO);
+    }
 }

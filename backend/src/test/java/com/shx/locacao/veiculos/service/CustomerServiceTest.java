@@ -20,7 +20,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomer;
 import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomerDTO;
@@ -129,4 +128,34 @@ public class CustomerServiceTest {
         assertThat(l).hasSize(2);
         assertThat(l).isNotEmpty();
     }
+
+    @Test
+    @DisplayName("Deve atualizar um cliente da base")
+    public void updateCustomersTest(){
+        final Integer id = 1;
+
+        // Busco um cliente da base pelo id
+        Customer customerReturnedById = new Customer(id, 77898521415L, "teste", LocalDate.now(), true);
+        when(repository.findById(id)).thenReturn(customerReturnedById);
+
+        // quando eu chamar o metodo update passando um cliente eu devolve um cliente alterado
+        Customer customerUpdate = new Customer(id, 87898521415L, "teste update", LocalDate.now(), true);
+        when(repository.update(customerReturnedById)).thenReturn(customerUpdate);
+
+        // converto para dto
+        CustomerDTO customerDtoUpdating = new CustomerDTO(id, 87898521415L, "teste update", LocalDate.now(), true);
+        when(modelMapper.map(customerUpdate, CustomerDTO.class))
+                .thenReturn(customerDtoUpdating);
+
+        // chamo o metodo do meu service para atualizar
+        CustomerDTO c = service.update(id, customerDtoUpdating);
+
+        // verifico se retornou corretamente
+        assertThat(c.getId()).isEqualTo(id);
+        assertThat(c.getName()).isEqualTo(customerUpdate.getName());
+        assertThat(c.getCpf()).isEqualTo(customerUpdate.getCpf());
+        assertThat(c.getBirthdate()).isEqualTo(customerUpdate.getBirthdate());
+        assertThat(c.getStatus()).isEqualTo(customerUpdate.getStatus());
+    }
+
 }
