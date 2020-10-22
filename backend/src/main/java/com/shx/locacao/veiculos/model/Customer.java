@@ -1,16 +1,14 @@
 package com.shx.locacao.veiculos.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
-import java.util.Date;
+
 
 @Entity
-public class Customer {
+public class Customer implements BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +28,7 @@ public class Customer {
         this.status = status;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }

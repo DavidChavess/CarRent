@@ -1,18 +1,15 @@
 package com.shx.locacao.veiculos.service;
 
 import com.shx.locacao.veiculos.dto.CustomerDTO;
-import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Customer;
-import com.shx.locacao.veiculos.repository.CustomerRepository;
+import com.shx.locacao.veiculos.repository.GenericRepository;
 import com.shx.locacao.veiculos.service.impl.CustomerServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -33,7 +30,7 @@ public class CustomerServiceTest {
     CustomerService service;
 
     @MockBean
-    CustomerRepository repository;
+    GenericRepository<Customer> repository;
 
     @MockBean
     ModelMapper modelMapper;
@@ -73,7 +70,7 @@ public class CustomerServiceTest {
         Customer customer = createCustomer(id);
 
         // busco um cliente no banco pelo id
-        when(repository.findById(id)).thenReturn(customer);
+        when(repository.findById(Customer.class, id)).thenReturn(customer);
 
         // converto esse cliente para um dto
         when(modelMapper.map(customer, CustomerDTO.class)).thenReturn(createCustomerDTO(id, LocalDate.now()));
@@ -91,7 +88,7 @@ public class CustomerServiceTest {
         final Integer id = 1;
 
         // busco um cliente inexistente e então retorno uma exceção
-        when(repository.findById(id)).thenThrow(IllegalArgumentException.class);
+        when(repository.findById(Customer.class, id)).thenThrow(IllegalArgumentException.class);
 
         // capturo a execeção do metodo
         Throwable c = Assertions.catchThrowable(() -> service.getById(id));
@@ -107,7 +104,7 @@ public class CustomerServiceTest {
 
         service.deleteById(id);
 
-        verify(repository).deleteById(id);
+        verify(repository).deleteById(Customer.class, id);
     }
 
     @Test
@@ -119,7 +116,7 @@ public class CustomerServiceTest {
         );
 
         // busco todos os clientes no banco
-        when(repository.findAll()).thenReturn(customers);
+        when(repository.findAll(Customer.class)).thenReturn(customers);
 
         // chamo o metodo do meu service
         List<CustomerDTO> l = service.getAll();
@@ -136,7 +133,7 @@ public class CustomerServiceTest {
 
         // Busco um cliente da base pelo id
         Customer customerReturnedById = new Customer(id, 77898521415L, "teste", LocalDate.now(), true);
-        when(repository.findById(id)).thenReturn(customerReturnedById);
+        when(repository.findById(Customer.class, id)).thenReturn(customerReturnedById);
 
         // quando eu chamar o metodo update passando um cliente eu devolve um cliente alterado
         Customer customerUpdate = new Customer(id, 87898521415L, "teste update", LocalDate.now(), true);

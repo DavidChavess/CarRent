@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.shx.locacao.veiculos.dto.CustomerDTO;
 import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.service.CustomerService;
-import com.shx.locacao.veiculos.service.CustomerServiceTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,12 +18,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

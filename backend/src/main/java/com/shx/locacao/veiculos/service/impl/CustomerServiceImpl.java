@@ -3,10 +3,9 @@ package com.shx.locacao.veiculos.service.impl;
 import com.shx.locacao.veiculos.dto.CustomerDTO;
 import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Customer;
-import com.shx.locacao.veiculos.repository.CustomerRepository;
+import com.shx.locacao.veiculos.repository.GenericRepository;
 import com.shx.locacao.veiculos.service.CustomerService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +14,10 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private CustomerRepository repository;
-    private ModelMapper modelMapper;
+    private final GenericRepository<Customer> repository;
+    private final ModelMapper modelMapper;
 
-    public CustomerServiceImpl(CustomerRepository repository, ModelMapper modelMapper) {
+    public CustomerServiceImpl(GenericRepository<Customer> repository, ModelMapper modelMapper) {
         this.repository = repository;
         this.modelMapper = modelMapper;
     }
@@ -38,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO getById(Integer id) {
         try {
-            return modelMapper.map(repository.findById(id), CustomerDTO.class);
+            return modelMapper.map(repository.findById(Customer.class, id), CustomerDTO.class);
 
         }catch (IllegalArgumentException e){
             throw new ObjectNotFoundException("Cliente não encontrado para o id informado");
@@ -48,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteById(Integer id) {
         try {
-            repository.deleteById(id);
+            repository.deleteById(Customer.class, id);
 
         }catch (IllegalArgumentException e){
             throw new ObjectNotFoundException("Cliente não encontrado para o id informado");
@@ -57,15 +56,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAll() {
-        return repository.findAll().stream()
+        return repository.findAll(Customer.class).stream()
             .map(c -> modelMapper.map(c, CustomerDTO.class))
             .collect(Collectors.toList());
-}
+    }
 
     @Override
     public CustomerDTO update(Integer id, CustomerDTO customerDTO) {
         try {
-            Customer customer = repository.findById(id);
+            Customer customer = repository.findById(Customer.class, id);
 
             customer.setStatus(customerDTO.getStatus());
             customer.setName(customerDTO.getName());

@@ -2,9 +2,7 @@ package com.shx.locacao.veiculos.controller;
 
 import com.shx.locacao.veiculos.dto.CustomerDTO;
 import com.shx.locacao.veiculos.model.Customer;
-import com.shx.locacao.veiculos.repository.CustomerRepository;
 import com.shx.locacao.veiculos.service.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
