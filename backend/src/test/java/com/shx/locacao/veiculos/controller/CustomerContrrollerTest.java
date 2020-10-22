@@ -2,6 +2,7 @@ package com.shx.locacao.veiculos.controller;
 
 import com.google.gson.Gson;
 import com.shx.locacao.veiculos.dto.CustomerDTO;
+import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.service.CustomerService;
 import org.junit.jupiter.api.DisplayName;
@@ -122,31 +123,22 @@ public class CustomerContrrollerTest {
     }
 
     @Test
-    @DisplayName("Deve atualizar um cliente")
-    public void update() throws Exception {
-        Integer id = 1;
-        CustomerDTO customerUpdated = createCustomerDTO(id, LocalDate.now());
-
-        given(service.update(any(Integer.class), any(CustomerDTO.class))).willReturn(customerUpdated);
-
-        // Json que envio na requisição
-        String json = new Gson().toJson(createCustomerDTO(null, null));
+    @DisplayName("Deve retornar um erro de objeto não encontrado e o status correto para o client")
+    public void objectNotFound() throws Exception {
+        String errorMessage = "Cliente não encontrado para o id informado";
+        given(service.getById(any(Integer.class)))
+                .willThrow( new ObjectNotFoundException(errorMessage) );
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .put(API.concat("/" + id))
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json);
+                .get(API.concat("/" + 1))
+                .accept(MediaType.APPLICATION_JSON);
 
         // Verifico se o objeto que retornou na resposta foi o mesmo que eu simulei
         mvc.perform(request)
-                .andExpect(jsonPath("id").value(id))
-                .andExpect(jsonPath("cpf").value(customerUpdated.getCpf()))
-                .andExpect(jsonPath("birthdate").value(customerUpdated.getBirthdate().toString()))
-                .andExpect(jsonPath("name").value(customerUpdated.getName()))
-                .andExpect(jsonPath("status").value(customerUpdated.getStatus()));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("statuscode").value(404))
+                .andExpect(jsonPath("error").value(errorMessage));
     }
-
 
 
     public static CustomerDTO createCustomerDTO(Integer id, LocalDate birthdate){
