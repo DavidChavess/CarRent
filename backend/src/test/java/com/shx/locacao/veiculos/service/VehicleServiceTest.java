@@ -4,6 +4,7 @@ import com.shx.locacao.veiculos.dto.CustomerDTO;
 import com.shx.locacao.veiculos.dto.VehicleDTO;
 import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.model.Vehicle;
+import com.shx.locacao.veiculos.model.enumeration.Fuel;
 import com.shx.locacao.veiculos.repository.GenericRepository;
 import com.shx.locacao.veiculos.service.impl.CustomerServiceImpl;
 import com.shx.locacao.veiculos.service.impl.VehicleServiceImpl;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -53,13 +55,12 @@ public class VehicleServiceTest {
     public void saveVehicleTest(){
         VehicleDTO dto = createVehicleDTO(null);
 
-        Vehicle vehicleSaving = createVehicle(null);
-        Vehicle vehicleSaved = createVehicle(1);
-
         // converto dto para um veiculo a ser salvo, por isso o id esta null
+        Vehicle vehicleSaving = createVehicle(null);
         when(modelMapper.map(dto, Vehicle.class)).thenReturn(vehicleSaving);
 
         // salvo a entidade que eu acabei de converter e retorno ela com o id populado
+        Vehicle vehicleSaved = createVehicle(1);
         when(repository.save(vehicleSaving)).thenReturn(vehicleSaved);
 
         // converto a entidade que eu salvei para dto com o id populado
@@ -78,6 +79,95 @@ public class VehicleServiceTest {
         assertThat(v.getRent()).isEqualTo(dto.getRent());
         assertThat(v.getValuePerDay()).isEqualTo(dto.getValuePerDay());
     }
+
+    @Test
+    @DisplayName("Deve buscar um veiculo pelo id")
+    public void getVehicleById() {
+        final Integer id = 1;
+        Vehicle vehicle = createVehicle(id);
+
+        // busco um cliente no banco pelo id
+        when(repository.findById(Vehicle.class, id)).thenReturn(vehicle);
+
+        // converto esse veiculo para um dto
+        VehicleDTO dtoReturned = createVehicleDTO(id);
+        when(modelMapper.map(vehicle, VehicleDTO.class)).thenReturn(dtoReturned);
+
+        // chamo o metodo do meu service
+        VehicleDTO v = service.getById(id);
+
+        // verifico se retornou corretamente
+        assertThat(v.getId()).isNotNull();
+        assertThat(v.getName()).isEqualTo(dtoReturned.getName());
+        assertThat(v.getModel()).isEqualTo(dtoReturned.getModel());
+        assertThat(v.getYear()).isEqualTo(dtoReturned.getYear());
+        assertThat(v.getFuel()).isEqualTo(dtoReturned.getFuel());
+        assertThat(v.getRent()).isEqualTo(dtoReturned.getRent());
+        assertThat(v.getValuePerDay()).isEqualTo(dtoReturned.getValuePerDay());
+    }
+
+    @Test
+    @DisplayName("Deve deletar um veiculo pelo id")
+    public void deleteVehicleById() {
+        final Integer id = 1;
+
+        // chamo o metodo do meu service
+        service.deleteById(id);
+
+        // verifico se foi chamado para deleção
+        verify(repository).deleteById(Vehicle.class, id);
+    }
+
+    @Test
+    @DisplayName("Deve buscar todos os veiculo")
+    public void getAllVehicles() {
+        List<Vehicle> vehicles = Arrays.asList(
+                createVehicle(1),
+                createVehicle(2)
+        );
+
+        // busco todos os clientes no banco
+        when(repository.findAll(Vehicle.class)).thenReturn(vehicles);
+
+        // chamo o metodo do meu service
+        List<VehicleDTO> v = service.getAll();
+
+        // verifico se retornou corretamente
+        assertThat(v).hasSize(2);
+        assertThat(v).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um veiculo")
+    public void updateVehicleTest(){
+        final Integer id = 1;
+
+        // Busco um cliente da base pelo id
+        Vehicle vehicleReturnedById = createVehicle(id);
+        when(repository.findById(Vehicle.class, id)).thenReturn(vehicleReturnedById);
+
+        // quando eu chamar o metodo update passando um cliente eu devolve um cliente alterado
+        Vehicle vehicleUpdate =  new Vehicle(id, "Gol", 2010, 2008, Fuel.GASOLINA, new BigDecimal("2.57"), false);
+        when(repository.update(vehicleReturnedById)).thenReturn(vehicleUpdate);
+
+        // converto para dto
+        VehicleDTO vehicleUpdateDTO = new VehicleDTO(id, "Gol", 2010, 2008, Fuel.GASOLINA, new BigDecimal("2.57"), false);
+        when(modelMapper.map(vehicleUpdate, VehicleDTO.class))
+                .thenReturn(vehicleUpdateDTO);
+
+        // chamo o metodo do meu service para atualizar
+        VehicleDTO v = service.update(id, vehicleUpdateDTO);
+
+        // verifico se retornou corretamente
+        assertThat(v.getId()).isNotNull();
+        assertThat(v.getName()).isEqualTo(vehicleUpdate.getName());
+        assertThat(v.getModel()).isEqualTo(vehicleUpdate.getModel());
+        assertThat(v.getYear()).isEqualTo(vehicleUpdate.getYear());
+        assertThat(v.getFuel()).isEqualTo(vehicleUpdate.getFuel());
+        assertThat(v.getRent()).isEqualTo(vehicleUpdate.getRent());
+        assertThat(v.getValuePerDay()).isEqualTo(vehicleUpdate.getValuePerDay());
+    }
+
 
 
 }

@@ -75,6 +75,90 @@ public class VehicleContrrollerTest {
                 .andExpect(jsonPath("rent").value(vehicleSaved.getRent()));
     }
 
+    @Test
+    @DisplayName("Deve buscar um veiculo pelo id e retorna-lo")
+    public void getById() throws Exception {
+        final Integer id = 1;
+
+        // Simulo o retorno do obj salvo
+        VehicleDTO vehicleReturned = createVehicleDTO(id);
+        given(service.getById(any(Integer.class))).willReturn(vehicleReturned);
+
+        // Faço a requisição GET
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get(API.concat("/"+id))
+                .accept(MediaType.APPLICATION_JSON);
+
+        // Verifico a resposta enviada para o client
+        mvc.perform(request)
+                .andExpect(jsonPath("id").value(vehicleReturned.getId()))
+                .andExpect(jsonPath("name").value(vehicleReturned.getName()))
+                .andExpect(jsonPath("year").value(vehicleReturned.getYear()))
+                .andExpect(jsonPath("model").value(vehicleReturned.getModel()))
+                .andExpect(jsonPath("fuel").value(vehicleReturned.getFuel().toString()))
+                .andExpect(jsonPath("valuePerDay").value(vehicleReturned.getValuePerDay()))
+                .andExpect(jsonPath("rent").value(vehicleReturned.getRent()));
+    }
+
+    @Test
+    @DisplayName("Deve deletar um veiculo pelo id informado")
+    public void deleteById() throws Exception {
+        // Faço a requisição DELETE
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .delete(API.concat("/"+1));
+
+        // Verifico a resposta enviada para o client
+        mvc.perform(request)
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Deve buscar todos os veiculos")
+    public void getAll() throws Exception {
+        List<VehicleDTO> vehiclesDTO = Arrays.asList(
+                createVehicleDTO(1),
+                createVehicleDTO(2));
+
+        given(service.getAll()).willReturn(vehiclesDTO);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get(API)
+                .accept(MediaType.APPLICATION_JSON);
+
+        // Verifico se o objeto que retornou na resposta foi o mesmo que eu simulei
+        mvc.perform(request)
+                .andExpect(jsonPath("[0].id").value(1))
+                .andExpect(jsonPath("[1].id").value(2));
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um veiculo")
+    public void update() throws Exception {
+        final Integer id = 1;
+        VehicleDTO vehicleUpdate = createVehicleDTO(id);
+        given(service.update(any(Integer.class), any(VehicleDTO.class) )).willReturn(vehicleUpdate);
+
+        // Json que envio na requisição
+        String json = new Gson().toJson(createVehicleDTO(id));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .put(API.concat("/"+id))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        // Verifico a resposta enviada para o client
+        mvc.perform(request)
+                .andExpect(jsonPath("id").value(vehicleUpdate.getId()))
+                .andExpect(jsonPath("name").value(vehicleUpdate.getName()))
+                .andExpect(jsonPath("year").value(vehicleUpdate.getYear()))
+                .andExpect(jsonPath("model").value(vehicleUpdate.getModel()))
+                .andExpect(jsonPath("fuel").value(vehicleUpdate.getFuel().toString()))
+                .andExpect(jsonPath("valuePerDay").value(vehicleUpdate.getValuePerDay()))
+                .andExpect(jsonPath("rent").value(vehicleUpdate.getRent()));
+    }
+
+
 
     public static VehicleDTO createVehicleDTO(Integer id){
         return new VehicleDTO(id, "Fox", 2012, 2012, Fuel.FLEX, new BigDecimal("5.57"), false);

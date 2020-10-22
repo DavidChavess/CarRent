@@ -1,11 +1,15 @@
 package com.shx.locacao.veiculos.service.impl;
 
 import com.shx.locacao.veiculos.dto.VehicleDTO;
+import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Vehicle;
 import com.shx.locacao.veiculos.repository.GenericRepository;
 import com.shx.locacao.veiculos.service.VehicleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -28,6 +32,53 @@ public class VehicleServiceImpl implements VehicleService {
 
         // converto novamente para dto e retorno o dto
         return modelMapper.map(vehicle, VehicleDTO.class);
+    }
+
+    @Override
+    public VehicleDTO getById(Integer id) {
+        try {
+            // busco no banco e converto para dto
+            return modelMapper.map(repository.findById(Vehicle.class, id), VehicleDTO.class);
+
+        }catch (IllegalArgumentException e){
+            throw new ObjectNotFoundException("Veiculo não encontrado para o id informado");
+        }
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        try {
+            repository.deleteById(Vehicle.class, id);
+
+        }catch (IllegalArgumentException e){
+            throw new ObjectNotFoundException("Veiculo não encontrado para o id informado");
+        }
+    }
+
+    @Override
+    public List<VehicleDTO> getAll() {
+        return repository.findAll(Vehicle.class).stream()
+                .map(v -> modelMapper.map(v, VehicleDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public VehicleDTO update(Integer id, VehicleDTO vehicleDTO) {
+        try {
+            Vehicle vehicle = repository.findById(Vehicle.class, id);
+
+            vehicle.setName(vehicleDTO.getName());
+            vehicle.setYear(vehicleDTO.getYear());
+            vehicle.setModel(vehicleDTO.getModel());
+            vehicle.setFuel(vehicleDTO.getFuel());
+            vehicle.setRent(vehicleDTO.getRent());
+            vehicle.setValuePerDay(vehicleDTO.getValuePerDay());
+
+            return modelMapper.map( repository.update(vehicle), VehicleDTO.class);
+
+        } catch ( NullPointerException e ){
+            throw new ObjectNotFoundException("Cliente não encontrado para o id informado");
+        }
     }
 
 }
