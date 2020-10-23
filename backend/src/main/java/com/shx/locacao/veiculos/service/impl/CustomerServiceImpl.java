@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.shx.locacao.veiculos.util.CustomerValidation.validCustomer;
+import static com.shx.locacao.veiculos.util.Validation.validCustomer;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -69,6 +69,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO update(Integer id, CustomerDTO customerDTO) {
         try {
+            // valido o dto pra ver não esta faltando nenhum campo ou se ele não veio null
+            validCustomer(customerDTO);
+
             Customer customer = repository.findById(Customer.class, id);
 
             customer.setStatus(customerDTO.getStatus());

@@ -28,8 +28,8 @@ import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.create
 import static com.shx.locacao.veiculos.controller.VehicleContrrollerTest.createVehicle;
 import static com.shx.locacao.veiculos.controller.VehicleContrrollerTest.createVehicleDTO;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -147,11 +147,11 @@ public class VehicleServiceTest {
         when(repository.findById(Vehicle.class, id)).thenReturn(vehicleReturnedById);
 
         // quando eu chamar o metodo update passando um cliente eu devolve um cliente alterado
-        Vehicle vehicleUpdate =  new Vehicle(id, "Gol", 2010, 2008, Fuel.GASOLINA, new BigDecimal("2.57"), false);
+        Vehicle vehicleUpdate =  new Vehicle(id, "Gol", 2010, 2008, Fuel.GASOLINA, new BigDecimal("2.57"), false, "wolksvagem");
         when(repository.update(vehicleReturnedById)).thenReturn(vehicleUpdate);
 
         // converto para dto
-        VehicleDTO vehicleUpdateDTO = new VehicleDTO(id, "Gol", 2010, 2008, Fuel.GASOLINA, new BigDecimal("2.57"), false);
+        VehicleDTO vehicleUpdateDTO = new VehicleDTO(id, "Gol", 2010, 2008, Fuel.GASOLINA, new BigDecimal("2.57"), false, "wolksvagem");
         when(modelMapper.map(vehicleUpdate, VehicleDTO.class))
                 .thenReturn(vehicleUpdateDTO);
 
@@ -168,6 +168,72 @@ public class VehicleServiceTest {
         assertThat(v.getValuePerDay()).isEqualTo(vehicleUpdate.getValuePerDay());
     }
 
+    // A PARTIR DAQUI EU VALIDO A REGRA DE NEGÓCIO
 
+    @Test
+    @DisplayName("Deve lançar erro de marca obrigatória")
+    public void brandInvalidTest(){
+        VehicleDTO vehicleDTO = createVehicleDTO(1);
+        vehicleDTO.setBrand("");
 
+        Throwable err = Assertions.catchThrowable(()-> service.save(vehicleDTO));
+
+        Assertions.assertThat(err).hasMessage("O campo marca deve ser entre 1 e 30 caracteres");
+
+        verify(repository, never()).save(any(Vehicle.class));
+    }
+
+    @Test
+    @DisplayName("Deve lançar erro de marca invalida")
+    public void nameInvalidTest(){
+        VehicleDTO vehicleDTO = createVehicleDTO(1);
+        vehicleDTO.setName("");
+
+        Throwable err = Assertions.catchThrowable(()-> service.save(vehicleDTO));
+
+        Assertions.assertThat(err).hasMessage("O campo nome deve ter até 100 caracteres");
+
+        verify(repository, never()).save(any(Vehicle.class));
+    }
+
+    @Test
+    @DisplayName("Deve lançar erro porque o modelo tem que ser maior que 2000 e menor 2100")
+    public void modelInvalidTest(){
+        VehicleDTO vehicleDTO = createVehicleDTO(1);
+        vehicleDTO.setModel(2150);
+        vehicleDTO.setYear(2010);
+
+        Throwable err = Assertions.catchThrowable(()-> service.save(vehicleDTO));
+
+        Assertions.assertThat(err).hasMessage("O campo modelo deve ser entre o ano 2000 e 2100");
+
+        verify(repository, never()).save(any(Vehicle.class));
+    }
+
+    @Test
+    @DisplayName("Deve lançar erro porque o modelo não pode ser menor que o ano")
+    public void modellInvalidTest(){
+        VehicleDTO vehicleDTO = createVehicleDTO(1);
+        vehicleDTO.setModel(2010);
+        vehicleDTO.setYear(2012);
+
+        Throwable err = Assertions.catchThrowable(()-> service.save(vehicleDTO));
+
+        Assertions.assertThat(err).hasMessage("O modelo deve ser maior ou igual ao ano");
+
+        verify(repository, never()).save(any(Vehicle.class));
+    }
+
+    @Test
+    @DisplayName("Deve lançar erro porque o ano tem que ser maior que 2000 e menor 2100")
+    public void yearInvalidTest(){
+        VehicleDTO vehicleDTO = createVehicleDTO(1);
+        vehicleDTO.setYear(1999);
+
+        Throwable err = Assertions.catchThrowable(()-> service.save(vehicleDTO));
+
+        Assertions.assertThat(err).hasMessage("O campo ano deve ser entre o ano 2000 e 2100");
+
+        verify(repository, never()).save(any(Vehicle.class));
+    }
 }

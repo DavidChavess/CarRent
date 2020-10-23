@@ -20,10 +20,11 @@ public class Vehicle implements BaseEntity{
     private Integer fuel;
     private BigDecimal valuePerDay;
     private Boolean rent;
+    private String brand;
 
     public Vehicle(){}
 
-    public Vehicle(Integer id, String name, Integer year, Integer model, Fuel fuel, BigDecimal valuePerDay, Boolean rent) {
+    public Vehicle(Integer id, String name, Integer year, Integer model, Fuel fuel, BigDecimal valuePerDay, Boolean rent, String brand) {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -31,6 +32,7 @@ public class Vehicle implements BaseEntity{
         this.fuel = fuel.getCod();
         this.valuePerDay = valuePerDay;
         this.rent = rent;
+        this.brand = brand;
     }
 
     @Override
@@ -88,5 +90,13 @@ public class Vehicle implements BaseEntity{
 
     public void setRent(Boolean rent) {
         this.rent = rent;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }

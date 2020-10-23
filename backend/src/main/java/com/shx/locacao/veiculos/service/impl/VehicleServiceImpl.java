@@ -5,11 +5,14 @@ import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Vehicle;
 import com.shx.locacao.veiculos.repository.GenericRepository;
 import com.shx.locacao.veiculos.service.VehicleService;
+import com.shx.locacao.veiculos.util.Validation;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.shx.locacao.veiculos.util.Validation.validVehicle;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -24,6 +27,9 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleDTO save(VehicleDTO dto) {
+        // valido o veiculo
+        validVehicle(dto);
+
         // converto o dto que foi enviado na requisição para entidade, para gravar no banco
         Vehicle vehicle = modelMapper.map(dto, Vehicle.class);
 

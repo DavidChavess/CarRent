@@ -12,10 +12,11 @@ public class VehicleDTO {
     private Integer fuel;
     private BigDecimal valuePerDay;
     private Boolean rent;
+    private String brand;
 
     public VehicleDTO() {}
 
-    public VehicleDTO(Integer id, String name, Integer year, Integer model, Fuel fuel, BigDecimal valuePerDay, Boolean rent) {
+    public VehicleDTO(Integer id, String name, Integer year, Integer model, Fuel fuel, BigDecimal valuePerDay, Boolean rent, String brand) {
         this.id = id;
         this.name = name;
         this.year = year;
@@ -23,6 +24,7 @@ public class VehicleDTO {
         this.fuel = fuel.getCod();
         this.valuePerDay = valuePerDay;
         this.rent = rent;
+        this.brand = brand;
     }
 
     public Integer getId() {
@@ -79,5 +81,13 @@ public class VehicleDTO {
 
     public void setRent(Boolean rent) {
         this.rent = rent;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 }

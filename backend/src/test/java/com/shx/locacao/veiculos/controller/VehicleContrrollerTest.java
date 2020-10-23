@@ -161,11 +161,11 @@ public class VehicleContrrollerTest {
 
 
     public static VehicleDTO createVehicleDTO(Integer id){
-        return new VehicleDTO(id, "Fox", 2012, 2012, Fuel.FLEX, new BigDecimal("5.57"), false);
+        return new VehicleDTO(id, "Fox", 2012, 2012, Fuel.FLEX, new BigDecimal("5.57"), false, "Wolkswagen");
     }
 
     public static Vehicle createVehicle(Integer id){
-        return new Vehicle(id, "Fox", 2012, 2012, Fuel.FLEX, new BigDecimal("5.57"), false);
+        return new Vehicle(id, "Fox", 2012, 2012, Fuel.FLEX, new BigDecimal("5.57"), false,"Wolkswagen");
     }
 
 }
