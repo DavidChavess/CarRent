@@ -1,12 +1,13 @@
 package com.shx.locacao.veiculos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.shx.locacao.veiculos.model.enumeration.Fuel;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Vehicle implements BaseEntity{
@@ -21,6 +22,9 @@ public class Vehicle implements BaseEntity{
     private BigDecimal valuePerDay;
     private Boolean isRent;
     private String brand;
+
+    @OneToMany(mappedBy = "vehicle")
+    private List<Rent> rentList = new ArrayList<>();
 
     public Vehicle(){}
 
@@ -98,5 +102,13 @@ public class Vehicle implements BaseEntity{
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public List<Rent> getRentList() {
+        return rentList;
+    }
+
+    public void setRentList(List<Rent> rentList) {
+        this.rentList = rentList;
     }
 }

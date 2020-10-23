@@ -1,6 +1,7 @@
 package com.shx.locacao.veiculos.service.impl;
 
 import com.shx.locacao.veiculos.dto.RentDTO;
+import com.shx.locacao.veiculos.dto.ReturnedRentDTO;
 import com.shx.locacao.veiculos.dto.SaveRentDTO;
 import com.shx.locacao.veiculos.exception.BusinessException;
 import com.shx.locacao.veiculos.model.Customer;
@@ -11,7 +12,11 @@ import com.shx.locacao.veiculos.service.RentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RentServiceImpl implements RentService {
@@ -58,5 +63,33 @@ public class RentServiceImpl implements RentService {
             throw new BusinessException("Cliente ou veiculo não encontrado");
         }
 
+    }
+
+    @Override
+    public RentDTO returnedRent(Integer codRent, ReturnedRentDTO dto) {
+        Rent rent = repository.findById( Rent.class, codRent );
+        LocalDate now = LocalDate.now();
+
+        int days = Period.between(rent.getStartRent(), now).getDays();
+
+        // se for 0 significa que ele pegou e entregou no mesmo dia, sendo assim cobro o valor da diaria
+        if (days == 0) days = 1;
+
+        // multiplica o valor por dia do veiculo pela quantidade de dias desde a data inicial da locação
+        BigDecimal valueTotal = rent.getVehicle().getValuePerDay().multiply(BigDecimal.valueOf(days));
+
+        rent.setReturned(dto.getReturned());
+        rent.setValueTotal(valueTotal);
+        rent.setEndRent(now);
+        rent.getVehicle().setRent(false);
+
+        return modelMapper.map(repository.update(rent), RentDTO.class);
+    }
+
+    @Override
+    public List<RentDTO> getAll() {
+        return repository.findAll(Rent.class).stream()
+                .map(r -> modelMapper.map(r, RentDTO.class))
+                .collect(Collectors.toList());
     }
 }

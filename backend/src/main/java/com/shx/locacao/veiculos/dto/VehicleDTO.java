@@ -4,6 +4,7 @@ import com.shx.locacao.veiculos.model.enumeration.Fuel;
 
 import java.math.BigDecimal;
 
+
 public class VehicleDTO {
     private Integer id;
     private String name;
@@ -90,4 +91,5 @@ public class VehicleDTO {
     public void setBrand(String brand) {
         this.brand = brand;
     }
+
 }

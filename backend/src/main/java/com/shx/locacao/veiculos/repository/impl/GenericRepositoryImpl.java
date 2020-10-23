@@ -1,6 +1,7 @@
 package com.shx.locacao.veiculos.repository.impl;
 
 import com.shx.locacao.veiculos.model.BaseEntity;
+import com.shx.locacao.veiculos.model.Rent;
 import com.shx.locacao.veiculos.repository.GenericRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

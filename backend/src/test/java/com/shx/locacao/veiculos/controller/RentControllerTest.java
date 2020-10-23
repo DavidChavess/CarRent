@@ -23,7 +23,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDate;
 
 import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomer;
+import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomerDTO;
 import static com.shx.locacao.veiculos.controller.VehicleContrrollerTest.createVehicle;
+import static com.shx.locacao.veiculos.controller.VehicleContrrollerTest.createVehicleDTO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -68,6 +70,6 @@ public class RentControllerTest {
     }
 
     private RentDTO createRentDTO(Integer id) {
-        return new RentDTO(1, createCustomer(1), createVehicle(1), LocalDate.now(), null, null);
+        return new RentDTO(1, createCustomerDTO(1, null), createVehicleDTO(1), LocalDate.now(), null, null, null);
     }
 }

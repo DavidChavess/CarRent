@@ -1,5 +1,6 @@
 package com.shx.locacao.veiculos.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.model.Vehicle;
 
@@ -9,15 +10,16 @@ import java.time.LocalDate;
 public class RentDTO {
 
     private Integer id;
-    private Customer customer;
-    private Vehicle vehicle;
+    private CustomerDTO customer;
+    private VehicleDTO vehicle;
     private LocalDate startRent;
     private LocalDate endRent;
     private BigDecimal valueTotal;
+    private Boolean returned;
 
     public RentDTO(){}
 
-    public RentDTO(Integer id, Customer customer, Vehicle vehicle, LocalDate startRent, LocalDate endRent, BigDecimal valueTotal) {
+    public RentDTO(Integer id, CustomerDTO customer, VehicleDTO vehicle, LocalDate startRent, LocalDate endRent, BigDecimal valueTotal, Boolean returned) {
         this.id = id;
         this.customer = customer;
         this.vehicle = vehicle;
@@ -34,19 +36,19 @@ public class RentDTO {
         this.id = id;
     }
 
-    public Customer getCustomer() {
+    public CustomerDTO getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(CustomerDTO customer) {
         this.customer = customer;
     }
 
-    public Vehicle getVehicle() {
+    public VehicleDTO getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
+    public void setVehicle(VehicleDTO vehicle) {
         this.vehicle = vehicle;
     }
 
@@ -72,5 +74,13 @@ public class RentDTO {
 
     public void setValueTotal(BigDecimal valueTotal) {
         this.valueTotal = valueTotal;
+    }
+
+    public Boolean getReturned() {
+        return returned;
+    }
+
+    public void setReturned(Boolean returned) {
+        this.returned = returned;
     }
 }

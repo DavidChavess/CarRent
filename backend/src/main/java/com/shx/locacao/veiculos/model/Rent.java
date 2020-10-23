@@ -1,5 +1,9 @@
 package com.shx.locacao.veiculos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,10 +26,11 @@ public class Rent implements BaseEntity {
     private LocalDate startRent;
     private LocalDate endRent;
     private BigDecimal valueTotal;
+    private Boolean returned;
 
     public Rent(){}
 
-    public Rent(Integer id, Customer customer, Vehicle vehicle, LocalDate startRent, LocalDate endRent, BigDecimal valueTotal) {
+    public Rent(Integer id, Customer customer, Vehicle vehicle, LocalDate startRent, LocalDate endRent, BigDecimal valueTotal, Boolean returned) {
         this.id = id;
         this.customer = customer;
         this.vehicle = vehicle;
@@ -81,5 +86,13 @@ public class Rent implements BaseEntity {
 
     public void setValueTotal(BigDecimal valueTotal) {
         this.valueTotal = valueTotal;
+    }
+
+    public Boolean getReturned() {
+        return returned;
+    }
+
+    public void setReturned(Boolean returned) {
+        this.returned = returned;
     }
 }

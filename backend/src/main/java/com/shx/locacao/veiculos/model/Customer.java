@@ -1,10 +1,11 @@
 package com.shx.locacao.veiculos.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -17,6 +18,9 @@ public class Customer implements BaseEntity {
     private String name;
     private LocalDate birthdate;
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Rent> rentList = new ArrayList<>();
 
     public Customer(){}
 
@@ -67,5 +71,13 @@ public class Customer implements BaseEntity {
 
     public void setActive(Boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public List<Rent> getRentList() {
+        return rentList;
+    }
+
+    public void setRentList(List<Rent> rentList) {
+        this.rentList = rentList;
     }
 }
