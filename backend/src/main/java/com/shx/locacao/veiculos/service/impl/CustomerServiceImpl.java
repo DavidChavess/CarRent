@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.shx.locacao.veiculos.util.CustomerValidation.validCustomer;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -24,7 +26,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO save(CustomerDTO dto) {
-        // converto o dto que foi enviado na requisição para entidade, para gravar no banco
+        // valido o dto pra ver não esta faltando nenhum campo ou se ele não veio null
+        validCustomer(dto);
+
+        // converto o dto que foi enviado na requisição para entidade, para gravar no banc
         Customer customer = modelMapper.map(dto, Customer.class);
 
         // salvo no banco de dados e retorno o obj

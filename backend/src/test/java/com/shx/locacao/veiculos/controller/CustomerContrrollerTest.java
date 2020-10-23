@@ -2,6 +2,7 @@ package com.shx.locacao.veiculos.controller;
 
 import com.google.gson.Gson;
 import com.shx.locacao.veiculos.dto.CustomerDTO;
+import com.shx.locacao.veiculos.exception.BusinessException;
 import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.service.CustomerService;
@@ -137,6 +138,28 @@ public class CustomerContrrollerTest {
         mvc.perform(request)
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("statuscode").value(404))
+                .andExpect(jsonPath("error").value(errorMessage));
+    }
+
+    @Test
+    @DisplayName("Deve dar erro de validação")
+    public void cpfInvalid() throws Exception {
+
+        String json = new Gson().toJson(createCustomerDTO(null, null));
+        String errorMessage = "O cpf deve ter 11 numeros inteiros";
+        given(service.save(any(CustomerDTO.class)))
+                .willThrow( new BusinessException(errorMessage) );
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        // Verifico se o objeto que retornou na resposta foi o mesmo que eu simulei
+        mvc.perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("statuscode").value(400))
                 .andExpect(jsonPath("error").value(errorMessage));
     }
 

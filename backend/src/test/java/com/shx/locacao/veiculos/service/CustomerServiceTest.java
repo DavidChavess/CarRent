@@ -155,4 +155,65 @@ public class CustomerServiceTest {
         assertThat(c.getStatus()).isEqualTo(customerUpdate.getStatus());
     }
 
+    // TESTES DA REGRA DE NEGÍCIO DO MEU SERVICE
+
+    @Test
+    @DisplayName("Deve lançar erro de cpf invalido")
+    public void cpfInvalidTest(){
+        final Long cpf = 10L;
+        CustomerDTO customerDTO = createCustomerDTO(1, LocalDate.now());
+        customerDTO.setCpf(cpf);
+
+        Throwable err = Assertions.catchThrowable(()-> service.save(customerDTO));
+
+        Assertions.assertThat(err).hasMessage("O cpf deve ter 11 numeros inteiros");
+
+        verify(repository, never()).save(any(Customer.class));
+    }
+
+    @Test
+    @DisplayName("Não deve lançar erro de cpf invalido")
+    public void cpfNotInvalidTest(){
+        final Long cpf = 12345678912L;
+        CustomerDTO customerDTO = createCustomerDTO(1, LocalDate.now());
+        customerDTO.setCpf(cpf);
+
+        Throwable err = Assertions.catchThrowable(()-> service.save(customerDTO));
+
+        Assertions.assertThat(err).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("Deve lançar erro de campo de data obrigatório")
+    public void birthdateInvaliddTest(){
+        // crio um dto mais não passo a data
+        CustomerDTO customerDTO = new CustomerDTO();
+
+        customerDTO.setName("david");
+        customerDTO.setCpf(12345678911L);
+        customerDTO.setStatus(true);
+
+        Throwable err = Assertions.catchThrowable(()-> service.save(customerDTO));
+
+        Assertions.assertThat(err).hasMessage("O campo data é obrigatório");
+
+        verify(repository, never()).save(any(Customer.class));
+    }
+
+    @Test
+    @DisplayName("Não deve lançar erro de campo de data obrigatório")
+    public void birthdateNotInvaliddTest(){
+        // crio um dto com data
+        CustomerDTO customerDTO = new CustomerDTO();
+
+        customerDTO.setName("david");
+        customerDTO.setCpf(12345678911L);
+        customerDTO.setBirthdate(LocalDate.now());
+        customerDTO.setStatus(true);
+
+        Throwable err = Assertions.catchThrowable(()-> service.save(customerDTO));
+
+        Assertions.assertThat(err).doesNotThrowAnyException();
+    }
+
 }
