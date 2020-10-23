@@ -152,7 +152,7 @@ public class CustomerServiceTest {
         assertThat(c.getName()).isEqualTo(customerUpdate.getName());
         assertThat(c.getCpf()).isEqualTo(customerUpdate.getCpf());
         assertThat(c.getBirthdate()).isEqualTo(customerUpdate.getBirthdate());
-        assertThat(c.getStatus()).isEqualTo(customerUpdate.getStatus());
+        assertThat(c.isActive()).isEqualTo(customerUpdate.isActive());
     }
 
     // TESTES DA REGRA DE NEGÍCIO DO MEU SERVICE
@@ -191,7 +191,7 @@ public class CustomerServiceTest {
 
         customerDTO.setName("david");
         customerDTO.setCpf(12345678911L);
-        customerDTO.setStatus(true);
+        customerDTO.setActive(true);
 
         Throwable err = Assertions.catchThrowable(()-> service.save(customerDTO));
 
@@ -209,7 +209,7 @@ public class CustomerServiceTest {
         customerDTO.setName("david");
         customerDTO.setCpf(12345678911L);
         customerDTO.setBirthdate(LocalDate.now());
-        customerDTO.setStatus(true);
+        customerDTO.setActive(true);
 
         Throwable err = Assertions.catchThrowable(()-> service.save(customerDTO));
 

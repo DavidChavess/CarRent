@@ -74,7 +74,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             Customer customer = repository.findById(Customer.class, id);
 
-            customer.setStatus(customerDTO.getStatus());
+            customer.setActive(customerDTO.isActive());
             customer.setName(customerDTO.getName());
             customer.setCpf(customerDTO.getCpf());
             customer.setBirthdate(customerDTO.getBirthdate());

@@ -1,12 +1,9 @@
 package com.shx.locacao.veiculos.service;
 
-import com.shx.locacao.veiculos.dto.CustomerDTO;
 import com.shx.locacao.veiculos.dto.VehicleDTO;
-import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.model.Vehicle;
 import com.shx.locacao.veiculos.model.enumeration.Fuel;
 import com.shx.locacao.veiculos.repository.GenericRepository;
-import com.shx.locacao.veiculos.service.impl.CustomerServiceImpl;
 import com.shx.locacao.veiculos.service.impl.VehicleServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,19 +16,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomer;
-import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomerDTO;
 import static com.shx.locacao.veiculos.controller.VehicleContrrollerTest.createVehicle;
 import static com.shx.locacao.veiculos.controller.VehicleContrrollerTest.createVehicleDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
@@ -76,7 +69,7 @@ public class VehicleServiceTest {
         assertThat(v.getModel()).isEqualTo(dto.getModel());
         assertThat(v.getYear()).isEqualTo(dto.getYear());
         assertThat(v.getFuel()).isEqualTo(dto.getFuel());
-        assertThat(v.getRent()).isEqualTo(dto.getRent());
+        assertThat(v.isRent()).isEqualTo(dto.isRent());
         assertThat(v.getValuePerDay()).isEqualTo(dto.getValuePerDay());
     }
 
@@ -102,7 +95,7 @@ public class VehicleServiceTest {
         assertThat(v.getModel()).isEqualTo(dtoReturned.getModel());
         assertThat(v.getYear()).isEqualTo(dtoReturned.getYear());
         assertThat(v.getFuel()).isEqualTo(dtoReturned.getFuel());
-        assertThat(v.getRent()).isEqualTo(dtoReturned.getRent());
+        assertThat(v.isRent()).isEqualTo(dtoReturned.isRent());
         assertThat(v.getValuePerDay()).isEqualTo(dtoReturned.getValuePerDay());
     }
 
@@ -164,7 +157,7 @@ public class VehicleServiceTest {
         assertThat(v.getModel()).isEqualTo(vehicleUpdate.getModel());
         assertThat(v.getYear()).isEqualTo(vehicleUpdate.getYear());
         assertThat(v.getFuel()).isEqualTo(vehicleUpdate.getFuel());
-        assertThat(v.getRent()).isEqualTo(vehicleUpdate.getRent());
+        assertThat(v.isRent()).isEqualTo(vehicleUpdate.isRent());
         assertThat(v.getValuePerDay()).isEqualTo(vehicleUpdate.getValuePerDay());
     }
 

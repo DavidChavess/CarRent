@@ -1,12 +1,9 @@
 package com.shx.locacao.veiculos.controller;
 
 import com.google.gson.Gson;
-import com.shx.locacao.veiculos.dto.CustomerDTO;
 import com.shx.locacao.veiculos.dto.VehicleDTO;
-import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.model.Vehicle;
 import com.shx.locacao.veiculos.model.enumeration.Fuel;
-import com.shx.locacao.veiculos.service.CustomerService;
 import com.shx.locacao.veiculos.service.VehicleService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -72,7 +68,7 @@ public class VehicleContrrollerTest {
                 .andExpect(jsonPath("model").value(vehicleSaved.getModel()))
                 .andExpect(jsonPath("fuel").value(vehicleSaved.getFuel().toString()))
                 .andExpect(jsonPath("valuePerDay").value(vehicleSaved.getValuePerDay()))
-                .andExpect(jsonPath("rent").value(vehicleSaved.getRent()));
+                .andExpect(jsonPath("rent").value(vehicleSaved.isRent()));
     }
 
     @Test
@@ -97,7 +93,7 @@ public class VehicleContrrollerTest {
                 .andExpect(jsonPath("model").value(vehicleReturned.getModel()))
                 .andExpect(jsonPath("fuel").value(vehicleReturned.getFuel().toString()))
                 .andExpect(jsonPath("valuePerDay").value(vehicleReturned.getValuePerDay()))
-                .andExpect(jsonPath("rent").value(vehicleReturned.getRent()));
+                .andExpect(jsonPath("rent").value(vehicleReturned.isRent()));
     }
 
     @Test
@@ -155,7 +151,7 @@ public class VehicleContrrollerTest {
                 .andExpect(jsonPath("model").value(vehicleUpdate.getModel()))
                 .andExpect(jsonPath("fuel").value(vehicleUpdate.getFuel().toString()))
                 .andExpect(jsonPath("valuePerDay").value(vehicleUpdate.getValuePerDay()))
-                .andExpect(jsonPath("rent").value(vehicleUpdate.getRent()));
+                .andExpect(jsonPath("rent").value(vehicleUpdate.isRent()));
     }
 
 

@@ -5,7 +5,6 @@ import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Vehicle;
 import com.shx.locacao.veiculos.repository.GenericRepository;
 import com.shx.locacao.veiculos.service.VehicleService;
-import com.shx.locacao.veiculos.util.Validation;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -71,13 +70,16 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public VehicleDTO update(Integer id, VehicleDTO vehicleDTO) {
         try {
+            // valido o veiculo
+            validVehicle(vehicleDTO);
+
             Vehicle vehicle = repository.findById(Vehicle.class, id);
 
             vehicle.setName(vehicleDTO.getName());
             vehicle.setYear(vehicleDTO.getYear());
             vehicle.setModel(vehicleDTO.getModel());
             vehicle.setFuel(vehicleDTO.getFuel());
-            vehicle.setRent(vehicleDTO.getRent());
+            vehicle.setRent(vehicleDTO.isRent());
             vehicle.setValuePerDay(vehicleDTO.getValuePerDay());
 
             return modelMapper.map( repository.update(vehicle), VehicleDTO.class);

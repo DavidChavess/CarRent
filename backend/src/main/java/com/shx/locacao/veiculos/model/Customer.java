@@ -16,16 +16,16 @@ public class Customer implements BaseEntity {
     private Long cpf;
     private String name;
     private LocalDate birthdate;
-    private Boolean status;
+    private Boolean isActive;
 
     public Customer(){}
 
-    public Customer(Integer id, Long cpf, String name, LocalDate birthdate, Boolean status) {
+    public Customer(Integer id, Long cpf, String name, LocalDate birthdate, Boolean isActive) {
         this.id = id;
         this.cpf = cpf;
         this.name = name;
         this.birthdate = birthdate;
-        this.status = status;
+        this.isActive = isActive;
     }
 
     @Override
@@ -61,11 +61,11 @@ public class Customer implements BaseEntity {
         this.birthdate = birthdate;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean isActive() {
+        return isActive;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 }

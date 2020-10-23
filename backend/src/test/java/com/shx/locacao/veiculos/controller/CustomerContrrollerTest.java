@@ -67,7 +67,7 @@ public class CustomerContrrollerTest {
                 .andExpect(jsonPath("cpf").value(customerSaved.getCpf()))
                 .andExpect(jsonPath("birthdate").value(customerSaved.getBirthdate().toString()))
                 .andExpect(jsonPath("name").value(customerSaved.getName()))
-                .andExpect(jsonPath("status").value(customerSaved.getStatus()));
+                .andExpect(jsonPath("status").value(customerSaved.isActive()));
     }
 
     @Test
@@ -89,7 +89,7 @@ public class CustomerContrrollerTest {
                 .andExpect(jsonPath("cpf").value(customer.getCpf()))
                 .andExpect(jsonPath("birthdate").value(customer.getBirthdate().toString()))
                 .andExpect(jsonPath("name").value(customer.getName()))
-                .andExpect(jsonPath("status").value(customer.getStatus()));
+                .andExpect(jsonPath("status").value(customer.isActive()));
     }
 
     @Test
