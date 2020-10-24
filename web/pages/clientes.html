@@ -19,12 +19,10 @@
         </nav>
     </header>
     <main>
-        <div id="topo">
-            <p>Hello world</p>
-            <button id="adicionar">Adicionar</button>        
+        <div id="mensagem">
         </div>
 
-        <form action="">
+        <form id="formulario-cadastro" action="">
             <label for="cpf">CPF</label>
             <input type="number" id="cpf" placeholder="11155522235" maxlength="11" required >
             <label for="nome">NOME</label>
@@ -33,57 +31,31 @@
             <input type="date" id="dt-nascimento" required>
             <label for="">STATUS</label>
             <div>   
-                <input type="radio" checked name="status" id="ativo"> ATIVO
-                <input type="radio" name="status" id="inativo"> INATIVO
+                <input type="radio" checked name="status" id="ativo" value="ativo"> ATIVO
+                <input type="radio" name="status" id="inativo" value="inativo"> INATIVO
             </div>
-            <button id="salvar" >Salvar</button>
+            <input type="submit" value="salvar" id="salvar" />
         </form>
-
+    
+        
         <div id="tabela">
-            <table>
-                <thead>
-                    <tr>
-                        <th>CPF</th>
-                        <th>NOME</th>
-                        <th>DATA NASCIMENTO</th>
-                        <th>STATUS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>55588899905</td>
-                        <td>David chaves</td>
-                        <td>07/02/2000</td>
-                        <td>ativo</td>
-                        <td>
-                            <button id="editar">editar</button>
-                            <button id="apagar">apagar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>55588899905</td>
-                        <td>David chaves</td>
-                        <td>07/02/2000</td>
-                        <td>ativo</td>
-                        <td>
-                            <button>editar</button>
-                            <button>apagar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>55588899905</td>
-                        <td>David chaves</td>
-                        <td>07/02/2000</td>
-                        <td>ativo</td>
-                        <td>
-                            <button>editar</button>
-                            <button>apagar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+          
         </div>
     </main>
+    <script src="../scripts/model/Customer.js"></script>
+    <script src="../scripts/model/Mensagem.js"></script>
     
+    
+    <script src="../scripts/utils/DateConverter.js"></script>
+
+    <script src="../scripts/view/View.js"></script>
+    <script src="../scripts/view/CustomerView.js"></script>
+    <script src="../scripts/view/MensagemView.js"></script>
+
+    <script src="../scripts/exception/BusinessException.js"></script>
+
+    <script src = "https://unpkg.com/axios/dist/axios.min.js"> </script>
+    <script src="../scripts/controller/CustomerController.js"></script>
+    <script src="../scripts/app.js"></script>
 </body>
 </html>

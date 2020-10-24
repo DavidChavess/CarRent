@@ -30,7 +30,7 @@ main {
     justify-content: space-between;
 }
 
-main form {
+main form#formulario-cadastro {
     position: relative;
     display: flex;
     margin: 0 auto;
@@ -40,12 +40,21 @@ main form {
     justify-content: space-between;
 }
 
-div#topo{
+div#mensagem{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 10px 50px;
+    justify-content: center;
+    padding: 10px;
 }
+
+div#mensagem p{
+    padding: 10px;
+    background-color: rgba(0,0,0,0.7);
+    color: #FFF;
+    width: 50%;
+    border-radius: 10px;
+}
+
 div#tabela {
     margin-top: 50px;
 }
@@ -59,7 +68,7 @@ div#tabela table td{
     padding: 10px;
 }
 
-button#salvar{
+main form input#salvar{
     position: absolute;
     right: 0;
     bottom: 10px;
