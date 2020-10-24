@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,600;1,400&display=swap');
+
+body{margin: 0; padding: 0; box-sizing: border-box; background-color: #ccc; font-family: Open Sans;}
+
+header{
+    width: 100vw;
+    margin-top: 0px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: space-around;
+}
+
+header nav ul{
+    display: flex;
+}
+
+header nav ul li{
+    list-style: none;
+    margin: 0 10px;
+}
+header nav ul li a{
+    color: #FFF;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: 550px;
+    justify-content: space-between;
+}
+
+main form {
+    position: relative;
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    height: 400px;
+    width: 700px;
+    justify-content: space-between;
+}
+
+div#topo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 50px;
+}
+div#tabela {
+    margin-top: 50px;
+}
+div#tabela table{
+    margin: 0 auto;
+    width: 900px;
+    text-align: center;
+}
+
+div#tabela table td{
+    padding: 10px;
+}
+
+button#salvar{
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    width: 200px ;
+}
+/*
+main form{
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    justify-content: center;
+    align-items: center;
+}
+img{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+#formSpent{
+    display: none;
+}
+
+
+
+
