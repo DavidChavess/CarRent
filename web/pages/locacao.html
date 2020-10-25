@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Aluguel de veiculos</title>
+</head>
+<body>
+    <header>
+        <img src="../image/shx-official.png" width="150px" alt="" srcset="">
+
+        <nav>
+            <ul>
+                <li> <a href="./clientes.html"> Clientes </a> </li>
+                <li> <a href="./veiculos.html"> Veiculos </a> </li>
+                <li> <a href=""> Locação </a> </li>
+            </ul>
+        </nav>
+        
+        <button onclick="showModal(event)" id="btn-show-modal" >+</button>
+
+    </header>
+    <main>
+        <div id="mensagem">
+        </div>
+
+        <div id="container-modal" >
+
+            <div id="container-form">
+                <button onclick="closeModal(event)" id="btn-close-modal" >X</button>
+                
+                <form id="formulario-cadastro" action="">
+                    <label for="clientes">Clientes disponiveis</label>
+                    <select name="clientes" id="clientes">
+                        <option value="193">David Chaves Teste de aluguel</option>
+                        <option value="2">Gisele</option> 
+                    </select>
+                    <label for="veiculos">Veiculos disponiveis</label>
+                    <select name="veiculos" id="veiculos">
+                        <option value="97">veiculo de teste de aluguel</option>
+                        <option value="2">Camaro GTO</option> 
+                    </select>
+                    <div>
+                        <input type="submit" value="salvar" id="salvar" />
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    
+        
+        <div id="tabela">
+          
+        </div>
+    </main>
+
+    <script src="../scripts/model/Rent.js"></script>
+    <script src="../scripts/model/Mensagem.js"></script>
+    
+    <script src="../scripts/view/View.js"></script>
+    <script src="../scripts/view/RentView.js"></script>
+    <script src="../scripts/view/MensagemView.js"></script>
+
+    <script src = "https://unpkg.com/axios/dist/axios.min.js"> </script>
+    <script src="../scripts/controller/RentController.js"></script>
+    <script src="../scripts/appRent.js"></script>
+</body>
+</html>

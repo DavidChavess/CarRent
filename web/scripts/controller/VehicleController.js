@@ -121,15 +121,10 @@ class VehicleController {
                 this._combustivel.value = this._vehicles[i].getFuel();
                 this._valorPorDia.value = this._vehicles[i].getValuePerDay(); 
                 this._marca.value = this._vehicles[i].getBrand();
-
-                if ( this._vehicles[i].isRent() ){
-                    this._status[0].checked = true;
-                }else {
-                    this._status[1].checked = true;
-                }
             
                 const modal = document.getElementById("container-modal");
                 modal.style.display = "flex";
+
                 const formulario =  document.getElementById("formulario-cadastro");
 
                 formulario.onsubmit = async (ev) => {
@@ -175,22 +170,14 @@ class VehicleController {
         this._marca.value = '';
     }
 
-    _newVehicle(){
-        let status;
-
-        for(let i = 0; i < this._status.length; i++){
-            if (this._status[i].checked){
-                status = this._status[i].value === "Alugado" ? true : false;
-            }
-        }
-        
+    _newVehicle(){       
         return new Vehicle(null, 
             this._nome.value, 
             this._ano.value, 
             this._modelo.value, 
             this._combustivel.value, 
             this._valorPorDia.value, 
-            status, 
+            false, 
             this._marca.value);
     }
 }
