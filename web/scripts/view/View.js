@@ -3,8 +3,8 @@ class View{
         this._elemento = document.getElementById(seletor);
     }
   
-    update(model){
-        this._elemento.innerHTML = this.template(model);
+    update(model, apagar, editar){
+        this._elemento.innerHTML = this.template(model, apagar, editar);
     }
     
     template(model){

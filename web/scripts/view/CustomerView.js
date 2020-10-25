@@ -11,29 +11,15 @@ class CustomerView extends View{
             </thead>
             <tbody>
                 ${customers.map( c => {
-                    return `<tr>
+                    return `<tr id = ${'td-'+ c.getId()} >
                         <td>${c.getCpf()}</td>
                         <td>${c.getName()}</td>
                         <td>${c.getBirthdate()}</td>
-                        <td>${c.getActive()}</td>
-                        <td>
-                            <form>
-                                <input type="hidden" value=${c.getId()} />
-                                <input type='submit' value = 'editar' />
-                            <form/>
-                        </td>
-                        <td>
-                            <form>
-                                <input type="hidden" value=${c.getId()} />
-                                <input type='submit' value = 'deletar' />
-                            <form/>
-                        </td>
+                        <td>${c.getActive()  ? 'Ativo' : 'Inativo'}</td>
+                        <td><button rel=${c.getId()} class="btn-deletar">deletar</button></td>
+                        <td><button rel=${c.getId()} class="btn-editar">editar</button></td>
                     </tr>`}).join('')}           
             </tbody>
         </table>`;   
-    }
-
-    details(){
-        return document.getElementsByClassName('details');
     }
 }
