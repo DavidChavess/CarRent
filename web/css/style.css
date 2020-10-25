@@ -24,7 +24,7 @@ header nav ul li a{
 }
 
 
-main form#formulario-cadastro input {
+main form#formulario-cadastro input,select {
     margin-bottom: 20px;
 }
 

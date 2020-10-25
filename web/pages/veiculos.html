@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Veiculos</title>
+</head>
+<body>
+    <header>
+        <img src="../image/shx-official.png" width="150px" alt="" srcset="">
+
+        <nav>
+            <ul>
+                <li> <a href="./clientes.html"> Clientes </a> </li>
+                <li> <a href=""> Veiculos </a> </li>
+                <li> <a href=""> Locação </a> </li>
+            </ul>
+        </nav>
+        
+        <button onclick="showModal(event)" id="btn-show-modal" >+</button>
+
+    </header>
+    <main>
+        <div id="mensagem">
+        </div>
+
+        <div id="container-modal" >
+
+            <div id="container-form">
+                <button onclick="closeModal(event)" id="btn-close-modal" >X</button>
+                
+                <form id="formulario-cadastro" action="">
+                    <label for="marca">MARCA</label>
+                    <input type="text" id="marca" placeholder="Fiat" maxlength="11" required >
+                    
+                    <label for="nome">NOME</label>
+                    <input type="text" id="nome" placeholder="Fiat UNO" required>
+                    
+                    <label for="ano">ANO</label>
+                    <input type="number" min="2000" max="2100" id="ano" required>
+                    
+                    <label for="modelo">MODELO</label>
+                    <input type="number" min="2000" max="2100" id="modelo" required>
+                    
+                    <label for="combustivel">COMBUSTIVEL</label>
+                    <select name="combustivel" id="combustivel">
+                        <option value="ETANOL">Etanol</option>
+                        <option value="GASOLINA">Gasolina</option> 
+                        <option value="FLEX">Flex</option>
+                        <option value="GNV">GNV</option>
+                    </select>
+    
+                    <label for="valorPorDia">VALOR POR DIA</label>
+                    <input type="number" min="0" id="valorPorDia" required>
+
+                    <label for="">STATUS</label>
+                    <div>   
+                        <input type="radio" name="status" id="alugado" value="Alugado"> Alugado
+                        <input type="radio" checked name="status" id="disponivel" value="Disponivel"> Disponivel
+                    </div>
+
+                    <input type="submit" value="salvar" id="salvar" />
+                </form>
+            </div>
+        </div>
+    
+        
+        <div id="tabela">
+          
+        </div>
+    </main>
+    <script src="../scripts/model/Vehicle.js"></script>
+    <script src="../scripts/model/Mensagem.js"></script>
+    
+    <script src="../scripts/view/View.js"></script>
+    <script src="../scripts/view/VehicleView.js"></script>
+    <script src="../scripts/view/MensagemView.js"></script>
+
+    <script src = "https://unpkg.com/axios/dist/axios.min.js"> </script>
+    
+    <script src="../scripts/controller/VehicleController.js"></script>
+    <script src="../scripts/appVehicle.js"></script>
+</body>
+</html>
