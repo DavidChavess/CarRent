@@ -41,8 +41,8 @@ class VehicleController {
 
             this._view.update(this._vehicles); 
             
-            //this._eventDelete();
-            //this._eventEdit();
+            this._eventDelete();
+            this._eventEdit();
             this._cleanFields();  
 
             document.getElementById("container-modal").style.display = "none";
@@ -55,8 +55,8 @@ class VehicleController {
         })
     }
     
-     findAll(){
-        this._api.get('/vehicles')
+    async findAll(){
+        await this._api.get('/vehicles')
        .then(response => {    
            
            response.data.forEach(v => {
@@ -73,8 +73,8 @@ class VehicleController {
 
             this._view.update(this._vehicles);
             this._cleanFields();
-            //this._eventDelete();
-            //this._eventEdit();
+            this._eventDelete();
+            this._eventEdit();
  
         })
        .catch(err => {
@@ -82,6 +82,89 @@ class VehicleController {
            //this._mensagemView.update( new Mensagem(err.response.data.error) );
        })
    }
+
+   _eventDelete(){
+        const buttonsDelete = document.getElementsByClassName("btn-deletar");
+        
+        for ( let i=0; i < buttonsDelete.length; i++ ){
+
+            buttonsDelete[i].addEventListener("click", async (event) => {
+
+                event.preventDefault();
+                const id = event.target.getAttribute('rel');
+
+                await this._api.delete(`/vehicles/${id}`)
+                .then(()=>{
+                    this._mensagemView.update( new Mensagem("Veiculo deletado com sucesso") );
+                    document.getElementById('td-'+id).remove();
+                })
+                .catch(err => {
+                    this._mensagemView.update( new Mensagem(err.response.data.error));
+                })                
+            })
+        }   
+    }
+
+    _eventEdit(){
+        const buttonsEdit = document.getElementsByClassName("btn-editar");
+         
+        for ( let i=0; i < buttonsEdit.length; i++ ){
+
+            buttonsEdit[i].addEventListener("click", (event => {
+
+                event.preventDefault();
+                const id = event.target.getAttribute('rel');
+                
+                this._nome.value = this._vehicles[i].getName(); 
+                this._ano.value = this._vehicles[i].getYear(); 
+                this._modelo.value = this._vehicles[i].getModel(); 
+                this._combustivel.value = this._vehicles[i].getFuel();
+                this._valorPorDia.value = this._vehicles[i].getValuePerDay(); 
+                this._marca.value = this._vehicles[i].getBrand();
+
+                if ( this._vehicles[i].isRent() ){
+                    this._status[0].checked = true;
+                }else {
+                    this._status[1].checked = true;
+                }
+            
+                const modal = document.getElementById("container-modal");
+                modal.style.display = "flex";
+                const formulario =  document.getElementById("formulario-cadastro");
+
+                formulario.onsubmit = async (ev) => {
+                    
+                    ev.preventDefault();
+
+                    await this._api.put(`/vehicles/${id}`, this._newVehicle())
+                    .then( response =>{
+                           
+                        const vehicle = new Vehicle(
+                            response.data.id,
+                            response.data.name, 
+                            response.data.year, 
+                            response.data.model, 
+                            response.data.fuel, 
+                            response.data.valuePerDay, 
+                            response.data.rent, 
+                            response.data.brand);
+            
+                        this._vehicles[i] = vehicle;
+                        this._view.update(this._vehicles); 
+                        this._eventDelete();
+                        this._eventEdit();
+                        this._cleanFields();  
+                        this._mensagemView.update( new Mensagem("Veiculo atualizado com sucesso") );
+                        modal.style.display = "none";
+
+                    })
+                    .catch(err => {
+                        this._mensagemView.update( new Mensagem(err.response.data.error));
+                    })
+                }              
+            }))
+        }
+    }
 
     _cleanFields(){
         this._nome.value = ''; 

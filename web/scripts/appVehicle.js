@@ -1,5 +1,5 @@
 const controller = new VehicleController();
-document.forms[0].onsubmit = controller.insert.bind(controller);
+document.getElementById("formulario-cadastro").onsubmit = controller.insert.bind(controller);
 
 function showModal(event){
     document.getElementById("container-modal").style.display = "flex";
