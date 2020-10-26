@@ -87,6 +87,13 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
+    public List<RentDTO> findByCustomer(Integer id) {
+        return repository.findByCustomer(Rent.class, repositoryCustomer.findById(Customer.class, id))
+                .stream().map(r -> modelMapper.map(r, RentDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<RentDTO> getAll() {
         return repository.findAll(Rent.class).stream()
                 .map(r -> modelMapper.map(r, RentDTO.class))

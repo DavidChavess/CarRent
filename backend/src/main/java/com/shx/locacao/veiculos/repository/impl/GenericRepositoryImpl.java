@@ -1,6 +1,7 @@
 package com.shx.locacao.veiculos.repository.impl;
 
 import com.shx.locacao.veiculos.model.BaseEntity;
+import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.model.Rent;
 import com.shx.locacao.veiculos.repository.GenericRepository;
 import org.springframework.stereotype.Repository;
@@ -46,6 +47,17 @@ public class GenericRepositoryImpl<T extends BaseEntity> implements GenericRepos
     @Override
     public List<T> findAll(Class<T> clazz) {
         List<T> list = entityManager.createQuery("FROM " + clazz.getName(), clazz).getResultList();
+        entityManager.close();
+        return list;
+    }
+
+    @Override
+    public List<T> findByCustomer(Class<T> clazz, Customer customer) {
+        List<T> list = entityManager.createQuery("FROM " + clazz.getName() + " o"+
+                " WHERE o.customer = :customer ", clazz)
+                .setParameter("customer", customer )
+                .getResultList();
+
         entityManager.close();
         return list;
     }

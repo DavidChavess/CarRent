@@ -11,8 +11,9 @@ public interface RentService {
     RentDTO save(SaveRentDTO dto);
 
     // metodo para devolver um aluguel
+    RentDTO returnedRent(Integer id, ReturnedRentDTO dto);
 
     List<RentDTO> getAll();
 
-    RentDTO returnedRent(Integer id, ReturnedRentDTO dto);
+    List<RentDTO> findByCustomer(Integer id);
 }
