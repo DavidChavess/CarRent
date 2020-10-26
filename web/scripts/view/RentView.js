@@ -22,8 +22,8 @@ class RentView extends View{
                         <td>${r.getCustomer().id}</td>
                         <td>${r.getVehicle().name}</td>
                         <td>${r.getVehicle().id}</td>
-                        <td>${r.getStartRent()}</td>
-                        <td>${r.getEndRent() === null ? '' : r.getEndRent()}</td>
+                        <td>${ DateConverter.dateFormatPtBr(r.getStartRent()) }</td>
+                        <td>${ r.getEndRent() === null ? '' : DateConverter.dateFormatPtBr(r.getEndRent()) }</td>
                         <td>${r.getValueTotal() === null ? '' : r.getValueTotal()}</td>
                         ${r.getReturned() ? '<td style="color:blue ">Concluido </td>' : '<td style="color:red ">Aberto</td>'}      
                         <td><button rel=${r.getId()} class="btn-devolver-aluguel">devolver aluguel</button></td>

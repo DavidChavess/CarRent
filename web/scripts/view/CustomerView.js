@@ -16,7 +16,7 @@ class CustomerView extends View{
                         <td>${c.getId()}</td>
                         <td>${c.getCpf()}</td>
                         <td>${c.getName()}</td>
-                        <td>${c.getBirthdate()}</td>
+                        <td>${ DateConverter.dateFormatPtBr(c.getBirthdate())}</td>
                         <td>${c.getActive()  ? 'Ativo' : 'Inativo'}</td>
                         <td><button rel=${c.getId()} class="btn-deletar">deletar</button></td>
                         <td><button rel=${c.getId()} class="btn-editar">editar</button></td>
