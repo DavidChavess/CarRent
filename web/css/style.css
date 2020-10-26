@@ -23,11 +23,6 @@ header nav ul li a{
     color: #FFF;
 }
 
-
-main form#formulario-cadastro input,select {
-    margin-bottom: 20px;
-}
-
 div#mensagem{
     display: flex;
     flex-direction: row;
@@ -43,25 +38,25 @@ div#mensagem p{
     border-radius: 10px;
 }
 
-div#tabela {
+div#tabela  {
     margin-top: 50px;
 }
+
+div#tabela table {
+    border-collapse: collapse;
+}
+
 div#tabela table{
     margin: 0 auto;
-    width: 900px;
     text-align: center;
 }
 
-div#tabela table td{
-    padding: 10px;
+div#tabela table tr td,th{
+    padding: 10px 5px;
+    border: 1px solid #606060;
 }
 
-main form input#salvar{
-    position: absolute;
-    right: 0;
-    bottom: 10px;
-    width: 200px ;
-}
+
 
 main div#container-modal div#container-form{
     position: relative;
@@ -72,12 +67,26 @@ main div#container-modal div#container-form{
     border-radius: 15px ;
 }
 
+main form#formulario-pesquisa {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 400px;
+    margin:  0 auto;
+}
+
+
 main form#formulario-cadastro {
     position: relative;
     display: flex;
     flex-direction: column;
-  
 }
+
+main form#formulario-cadastro input, select {
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
 main div#container-modal{
     position: absolute;
     top: 0;

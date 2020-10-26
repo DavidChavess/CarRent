@@ -72,7 +72,6 @@ class VehicleController {
             });
 
             this._view.update(this._vehicles);
-            this._cleanFields();
             this._eventDelete();
             this._eventEdit();
  
@@ -168,7 +167,7 @@ class VehicleController {
         this._ano.value = 2000 
         this._modelo.value = 2000 
         this._combustivel.value = '' 
-        this._valorPorDia.value = 0.0; 
+        this._valorPorDia.value = "0,0"; 
         this._marca.value = '';
         this._status = false;
     }
@@ -179,7 +178,7 @@ class VehicleController {
             this._ano.value, 
             this._modelo.value, 
             this._combustivel.value, 
-            this._valorPorDia.value, 
+            this._valorPorDia.value.replace(",", "."), 
             this._status, 
             this._marca.value);
     }

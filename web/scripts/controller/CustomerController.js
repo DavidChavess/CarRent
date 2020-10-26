@@ -57,7 +57,6 @@ class CustomerController {
             })
 
             this._view.update(this._customers);
-            this._cleanFields();
             this._eventDelete();
             this._eventEdit();
 

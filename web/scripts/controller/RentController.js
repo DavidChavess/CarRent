@@ -5,6 +5,7 @@ class RentController {
 
         this._veiculos = $('#veiculos');
         this._clientes = $('#clientes');
+        this._clientesPesquisa = $('#pesquisa-clientes');
        
         this._rents = []; 
         this._view = new RentView("tabela");
@@ -51,6 +52,8 @@ class RentController {
         await this._api.get('/rents')
        .then(response => {    
            
+            this._rents.length = 0;
+             
            response.data.forEach(r => {
                 this._rents.push( new Rent(
                     r.id,
@@ -101,6 +104,35 @@ class RentController {
                 })                
             })
         }   
+    }
+
+    async pesquisa(event){
+        event.preventDefault();
+
+        await this._api.get(`/customers/${this._clientesPesquisa.value}/rents`)
+        .then(response => {    
+
+            this._rents.length = 0;
+
+            response.data.forEach(r => {
+                 this._rents.push( new Rent(
+                     r.id,
+                     r.customer,
+                     r.vehicle,
+                     r.startRent,
+                     r.endRent,
+                     r.valueTotal,
+                     r.returned
+                 ));
+             });
+
+
+             this._view.update(this._rents);
+             this._returnedRent();
+         })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     _newRent(){
