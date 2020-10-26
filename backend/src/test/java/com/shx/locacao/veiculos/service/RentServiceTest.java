@@ -1,6 +1,8 @@
 package com.shx.locacao.veiculos.service;
 
 import com.shx.locacao.veiculos.dto.RentDTO;
+import com.shx.locacao.veiculos.dto.ReturnedRentDTO;
+import com.shx.locacao.veiculos.dto.VehicleDTO;
 import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.model.Rent;
 import com.shx.locacao.veiculos.model.Vehicle;
@@ -20,6 +22,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomer;
+import static com.shx.locacao.veiculos.controller.CustomerContrrollerTest.createCustomerDTO;
+import static com.shx.locacao.veiculos.controller.VehicleContrrollerTest.createVehicle;
+import static com.shx.locacao.veiculos.controller.VehicleContrrollerTest.createVehicleDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -47,24 +53,54 @@ public class RentServiceTest {
     }
 
 
-    /*@Test
-    @DisplayName("Deve calcular o valor da diaria")
+    @Test
+    @DisplayName("Deve retornar um veiculo com o valor da diaria calculado")
     public void calculateValuePerDay(){
-       // final Integer days = 3
-       //LocalDate threeDaysAgo = LocalDate.now().plusDays(days);
+        BigDecimal valuePerDay = new BigDecimal("4");
 
-        final BigDecimal valuePerDay = BigDecimal.valueOf(4.5);
-        Vehicle v = new Vehicle();
-        v.setValuePerDay( valuePerDay );
+        Vehicle vehicle = createVehicle(1);
+        vehicle.setValuePerDay( valuePerDay );
 
-        Rent rent = new Rent(1,new Customer(), v, LocalDate.now(), null, null );
+        // quando eu chamar o findById pra eu retornar um aluguel eu quero que retorne esse aluguel abaixo
+
+        Rent rent = new Rent(1, createCustomer(1), vehicle, LocalDate.now(), null, null, null );
         when(repository.findById(Rent.class, 1)).thenReturn(rent);
 
-        RentDTO rentDtoReturned = new RentDTO(1,new Customer(), v, LocalDate.now(), null, null );
-        when(modelMapper.map(rent, RentDTO.class)).thenReturn(rentDtoReturned);
+        // Quando eu chamar o update eu quero que retorne um aluguel passado 3 dias
+        // Ja com o valor calculado
 
-        RentDTO rentDTO = service.giveBackRent(1);
+        Rent rentUpdated = new Rent(
+                1,
+                createCustomer(1),
+                vehicle,
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
+                vehicle.getValuePerDay().multiply(BigDecimal.valueOf(3)),
+                true);
 
-        assertThat(rentDTO.getValueTotal()).isEqualTo(BigDecimal.valueOf(13.5));
-    }*/
+        when(repository.update(rent)).thenReturn(rentUpdated);
+
+
+        // converto esse aluguel que retornou no update para um dto
+
+        VehicleDTO vehicleDTO = createVehicleDTO(1);
+        vehicleDTO.setValuePerDay( valuePerDay );
+
+        RentDTO rentDtoReturned = new RentDTO(
+                1,
+                createCustomerDTO(1, null),
+                vehicleDTO,
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
+                vehicleDTO.getValuePerDay().multiply(BigDecimal.valueOf(3)),
+                true);
+
+        when(modelMapper.map(rentUpdated, RentDTO.class)).thenReturn(rentDtoReturned);
+
+        // chamo o metodo do service
+        RentDTO returnedRent = service.returnedRent(1, new ReturnedRentDTO(true));
+
+        // no final, o valor total deve ser 12, porque se passaram 3 dias, e valor da diaria do veiculo era 4 reais
+        assertThat(returnedRent.getValueTotal()).isEqualTo(BigDecimal.valueOf(12));
+    }
 }

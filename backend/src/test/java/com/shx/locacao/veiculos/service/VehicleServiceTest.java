@@ -140,11 +140,11 @@ public class VehicleServiceTest {
         when(repository.findById(Vehicle.class, id)).thenReturn(vehicleReturnedById);
 
         // quando eu chamar o metodo update passando um cliente eu devolve um cliente alterado
-        Vehicle vehicleUpdate =  new Vehicle(id, "Gol", 2010, 2008, Fuel.GASOLINA, new BigDecimal("2.57"), false, "wolksvagem");
+        Vehicle vehicleUpdate =  new Vehicle(id, "Gol", 2010, 2010, Fuel.GASOLINA, new BigDecimal("2.57"), false, "wolksvagem");
         when(repository.update(vehicleReturnedById)).thenReturn(vehicleUpdate);
 
         // converto para dto
-        VehicleDTO vehicleUpdateDTO = new VehicleDTO(id, "Gol", 2010, 2008, Fuel.GASOLINA, new BigDecimal("2.57"), false, "wolksvagem");
+        VehicleDTO vehicleUpdateDTO = new VehicleDTO(id, "Gol", 2010, 2010, Fuel.GASOLINA, new BigDecimal("2.57"), false, "wolksvagem");
         when(modelMapper.map(vehicleUpdate, VehicleDTO.class))
                 .thenReturn(vehicleUpdateDTO);
 
@@ -164,7 +164,7 @@ public class VehicleServiceTest {
     // A PARTIR DAQUI EU VALIDO A REGRA DE NEGÓCIO
 
     @Test
-    @DisplayName("Deve lançar erro de marca obrigatória")
+    @DisplayName("Deve lançar erro informando que o campo marca deve ter entre 1 e 30 caracteres")
     public void brandInvalidTest(){
         VehicleDTO vehicleDTO = createVehicleDTO(1);
         vehicleDTO.setBrand("");
@@ -177,7 +177,7 @@ public class VehicleServiceTest {
     }
 
     @Test
-    @DisplayName("Deve lançar erro de marca invalida")
+    @DisplayName("Deve lançar erro informando que o campo nome deve até 100 caracteres")
     public void nameInvalidTest(){
         VehicleDTO vehicleDTO = createVehicleDTO(1);
         vehicleDTO.setName("");

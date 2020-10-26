@@ -6,6 +6,7 @@ import com.shx.locacao.veiculos.exception.BusinessException;
 import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.service.CustomerService;
+import com.shx.locacao.veiculos.service.RentService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,9 @@ public class CustomerContrrollerTest {
     @MockBean
     CustomerService service;
 
+    @MockBean
+    RentService rentService;
+
     private static String API = "/customers";
 
     @Test
@@ -67,7 +71,7 @@ public class CustomerContrrollerTest {
                 .andExpect(jsonPath("cpf").value(customerSaved.getCpf()))
                 .andExpect(jsonPath("birthdate").value(customerSaved.getBirthdate().toString()))
                 .andExpect(jsonPath("name").value(customerSaved.getName()))
-                .andExpect(jsonPath("status").value(customerSaved.isActive()));
+                .andExpect(jsonPath("active").value(customerSaved.isActive()));
     }
 
     @Test
@@ -89,7 +93,7 @@ public class CustomerContrrollerTest {
                 .andExpect(jsonPath("cpf").value(customer.getCpf()))
                 .andExpect(jsonPath("birthdate").value(customer.getBirthdate().toString()))
                 .andExpect(jsonPath("name").value(customer.getName()))
-                .andExpect(jsonPath("status").value(customer.isActive()));
+                .andExpect(jsonPath("active").value(customer.isActive()));
     }
 
     @Test
