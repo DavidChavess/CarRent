@@ -9,7 +9,7 @@ class VehicleController {
         this._modelo = $('#modelo');
         this._combustivel = $('#combustivel');        
         this._valorPorDia = $('#valorPorDia');
-        this._status = document.getElementsByName('status');
+        this._status = false;
 
         this._vehicles = []; 
         this._view = new VehicleView("tabela");
@@ -97,6 +97,7 @@ class VehicleController {
                 .then(()=>{
                     this._mensagemView.update( new Mensagem("Veiculo deletado com sucesso") );
                     document.getElementById('td-'+id).remove();
+                    this._vehicles.splice(i, 1);
                 })
                 .catch(err => {
                     this._mensagemView.update( new Mensagem(err.response.data.error));
@@ -121,6 +122,7 @@ class VehicleController {
                 this._combustivel.value = this._vehicles[i].getFuel();
                 this._valorPorDia.value = this._vehicles[i].getValuePerDay(); 
                 this._marca.value = this._vehicles[i].getBrand();
+                this._status = this._vehicles[i].isRent();
             
                 const modal = document.getElementById("container-modal");
                 modal.style.display = "flex";
@@ -168,6 +170,7 @@ class VehicleController {
         this._combustivel.value = '' 
         this._valorPorDia.value = 0.0; 
         this._marca.value = '';
+        this._status = false;
     }
 
     _newVehicle(){       
@@ -177,7 +180,7 @@ class VehicleController {
             this._modelo.value, 
             this._combustivel.value, 
             this._valorPorDia.value, 
-            false, 
+            this._status, 
             this._marca.value);
     }
 }

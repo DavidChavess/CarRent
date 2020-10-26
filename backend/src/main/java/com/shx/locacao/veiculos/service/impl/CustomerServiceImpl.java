@@ -1,11 +1,14 @@
 package com.shx.locacao.veiculos.service.impl;
 
 import com.shx.locacao.veiculos.dto.CustomerDTO;
+import com.shx.locacao.veiculos.exception.BusinessException;
 import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Customer;
 import com.shx.locacao.veiculos.repository.GenericRepository;
 import com.shx.locacao.veiculos.service.CustomerService;
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,6 +59,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         }catch (IllegalArgumentException e){
             throw new ObjectNotFoundException("Cliente não encontrado para o id informado");
+
+        }catch (DataIntegrityViolationException e){
+            throw new BusinessException("Você não pode apagar este cliente pois ele esta associado a um aluguel");
         }
     }
 

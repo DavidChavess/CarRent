@@ -81,6 +81,7 @@ class CustomerController {
                 .then(()=>{
                     this._mensagemView.update( new Mensagem("Cliente deletado com sucesso") );
                     document.getElementById('td-'+id).remove();
+                    this._customers.splice(i, 1);
                 })
                 .catch(err => {
                     this._mensagemView.update( new Mensagem(err.response.data.error));

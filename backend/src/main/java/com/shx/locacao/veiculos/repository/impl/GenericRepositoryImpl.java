@@ -24,28 +24,37 @@ public class GenericRepositoryImpl<T extends BaseEntity> implements GenericRepos
     @Override
     public T save(T t) {
         entityManager.persist(t);
+        entityManager.close();
         return t;
     }
 
     @Override
     public T findById(Class<T> clazz, Integer id) {
-        return entityManager.find(clazz, id);
+        T find = entityManager.find(clazz, id);
+        entityManager.close();
+        return find;
     }
 
     @Transactional
     @Override
     public void deleteById(Class<T> clazz, Integer id) {
-        entityManager.remove( findById(clazz, id) );
+        T find = findById(clazz, id);
+        entityManager.remove( find );
+        entityManager.close();
     }
 
     @Override
     public List<T> findAll(Class<T> clazz) {
-        return entityManager.createQuery("FROM " + clazz.getName(), clazz).getResultList();
+        List<T> list = entityManager.createQuery("FROM " + clazz.getName(), clazz).getResultList();
+        entityManager.close();
+        return list;
     }
 
     @Transactional
     @Override
     public T update(T t) {
-        return entityManager.merge(t);
+        T merge = entityManager.merge(t);
+        entityManager.close();
+        return merge;
     }
 }

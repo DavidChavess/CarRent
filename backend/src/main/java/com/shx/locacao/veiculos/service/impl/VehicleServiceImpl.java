@@ -1,11 +1,14 @@
 package com.shx.locacao.veiculos.service.impl;
 
 import com.shx.locacao.veiculos.dto.VehicleDTO;
+import com.shx.locacao.veiculos.exception.BusinessException;
 import com.shx.locacao.veiculos.exception.ObjectNotFoundException;
 import com.shx.locacao.veiculos.model.Vehicle;
 import com.shx.locacao.veiculos.repository.GenericRepository;
 import com.shx.locacao.veiculos.service.VehicleService;
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,7 +60,11 @@ public class VehicleServiceImpl implements VehicleService {
 
         }catch (IllegalArgumentException e){
             throw new ObjectNotFoundException("Veiculo não encontrado para o id informado");
+
+        }catch (DataIntegrityViolationException e){
+            throw new BusinessException("Você não pode apagar este veiculo pois ele esta associado a um aluguel");
         }
+
     }
 
     @Override
@@ -81,6 +88,7 @@ public class VehicleServiceImpl implements VehicleService {
             vehicle.setFuel(vehicleDTO.getFuel());
             vehicle.setRent(vehicleDTO.isRent());
             vehicle.setValuePerDay(vehicleDTO.getValuePerDay());
+            vehicle.setBrand(vehicleDTO.getBrand());
 
             return modelMapper.map( repository.update(vehicle), VehicleDTO.class);
 

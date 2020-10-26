@@ -34,4 +34,4 @@ function closeModal(event){
     document.getElementById("container-modal").style.display = "none";
 }
 
-//controller.findAll();
+controller.findAll();

@@ -3,6 +3,7 @@ class CustomerView extends View{
         return `<table>
             <thead>
                 <tr>
+                    <th>Codigo</th>
                     <th>CPF</th>
                     <th>NOME</th>
                     <th>DATA NASCIMENTO</th>
@@ -12,6 +13,7 @@ class CustomerView extends View{
             <tbody>
                 ${customers.map( c => {
                     return `<tr id = ${'td-'+ c.getId()} >
+                        <td>${c.getId()}</td>
                         <td>${c.getCpf()}</td>
                         <td>${c.getName()}</td>
                         <td>${c.getBirthdate()}</td>

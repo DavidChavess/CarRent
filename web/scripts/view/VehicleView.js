@@ -3,6 +3,7 @@ class VehicleView extends View{
         return `<table>
             <thead>
                 <tr>
+                    <th>Codigo</th>
                     <th>MARCA</th>
                     <th>NOME</th>
                     <th>ANO</th>
@@ -15,6 +16,7 @@ class VehicleView extends View{
             <tbody>
                 ${vehicles.map( v => {
                     return `<tr id = ${'td-'+ v.getId()} >
+                        <td>${v.getId()}</td>
                         <td>${v.getBrand()}</td>
                         <td>${v.getName()}</td>
                         <td>${v.getYear()}</td>
