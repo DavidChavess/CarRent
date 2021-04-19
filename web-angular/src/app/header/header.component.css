@@ -1,0 +1,56 @@
+header{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    color: #FFF;
+}
+header div.header-title {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #307BEC;
+    height: 85px;
+}
+
+h1, h2, h3, h4, h5, h6, h7{
+    font-weight: 400;
+}
+
+
+header div.header-menu {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+    
+    background: #1B2F4F;
+    height: 54px;
+}
+
+header div.header-menu h3 {
+    margin-left: 50px;
+
+}
+header div.header-menu ul {
+    
+    margin-right: 50px;
+    
+    display: flex;    
+   
+    list-style: none;
+
+}
+
+header div.header-menu ul li a {
+    color: #FFF;
+    text-decoration: none;
+    padding: 18px 10px;
+
+}
+
+header div.header-menu ul li a:hover {
+    background: #0e1829;
+}
+
