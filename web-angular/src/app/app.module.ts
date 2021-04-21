@@ -1,18 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
+import { routing } from './app.routing';
+import { VehicleModule } from './components/vehicle/vehicle.module';
+import { RentModule } from './components/rent/rent.module';
+import { ClientModule } from './components/client/client.module';
+import { HomeModule } from './components/home/home.module';
+import { HeaderModule } from './header/header.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HeaderModule,
+    VehicleModule,
+    RentModule,
+    ClientModule,
+    HomeModule,
+    routing
   ],
   providers: [],
   bootstrap: [AppComponent]
