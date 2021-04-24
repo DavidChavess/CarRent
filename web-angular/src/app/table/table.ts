@@ -1,3 +1,8 @@
 export interface TableColumn {
-    atribute: string
+    name: string
+    source: string
+}
+
+export interface Row {
+    row: any
 }

@@ -1,14 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RentComponent } from './rent.component';
-import { HeaderModule } from 'src/app/header/header.module';
+import { RentGridComponent } from './rent-grid/rent-grid.component';
+import { TableModule } from 'src/app/table/table.module';
 
 
 
 @NgModule({
-  declarations: [ RentComponent],
+  declarations: [ 
+    RentComponent, 
+    RentGridComponent
+  ],
   imports: [
     CommonModule,
+    TableModule
   ],
   exports: [ RentComponent ]
 })

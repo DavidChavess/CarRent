@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { TableColumn } from 'src/app/table/table';
 import { Client } from '../client';
+import { ClientService } from '../client.service';
 
 @Component({
   selector: 'app-grid',
@@ -10,40 +11,36 @@ import { Client } from '../client';
 })
 export class GridComponent implements OnInit {
 
-  constructor() { }
-
   columns: TableColumn[] = [
     {
-      atribute: 'nome'
+      name: "nome",
+      source: 'nome'
     },
     {
-      atribute: 'cpf'
+      name: "cpf",
+      source: 'cpf'
     },
     {
-      atribute: 'dataNascimento'
+      name: "Data de nascimento",
+      source: 'dataNascimento'
     },
     {
-      atribute: 'ativo'
+      name: "Esta ativo",
+      source: 'ativo'
     }
   ];
 
   content: Client[];
 
+  rowAction: Function;
+
+  constructor(private _service: ClientService) { }
+
   ngOnInit(): void {
-    this.content = [
-      {
-        nome: "teste",
-        cpf: "484.855.226-50",
-        dataNascimento: new Date(),
-        ativo: true       
-      },
-      {
-        nome: "teste 2",
-        cpf: "999.855.226-50",
-        dataNascimento: new Date(),
-        ativo: false       
-      },
-    ]
+    this.content = this._service.getClients();
+    this.rowAction = () => {
+      alert("Cliente");
+    }
   }
 
 }

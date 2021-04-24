@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component,Input, OnInit } from '@angular/core';
 
 import { TableColumn } from './table';
 
@@ -16,25 +15,14 @@ export class TableComponent implements OnInit {
     @Input()
     content: any[];
 
-    linhas: SafeHtml;
+    @Input()
+    rowAction: Function = ()=>{};
 
-    constructor( private s: DomSanitizer ) { }
+    constructor() { }
 
     ngOnInit(): void {
-
-        let html = '';
-
-        this.content.forEach( (x, i) => {
-            html += `<tr> <th>${i+1}</th> `;
-
-            this.columns.forEach( y => {
-                html += `<td> ${x[ y.atribute ]}</td>`;
-            })
-
-            html += '</tr>';
-        })
-
-        this.linhas = this.s.bypassSecurityTrustHtml( html );
+        
     }
 
+   
 }
