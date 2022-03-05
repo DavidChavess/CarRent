@@ -1,9 +1,11 @@
-# aluguel-veiculos
-processo seletivo SHX - Programador Java JR
+# CarService
 
-## Projeto 
+## Objetivo 
+- Criar uma aplicação web para alugueis de veiculos. 
 
-Criar uma aplicação web para alugueis de veiculos para clientes
+### Descrição 
+- O cliente poderá se cadastrar e escolher o veiculo que quiser para aluguar.
+- Condições de aluguel: Além da taxa de aluguel padrão de cada veiculo, será cobrada um valor a mais por cada dia que o cliente ficar com o veiculo 
 
 ### Progresso
 1. Criar uma API RESTful.
