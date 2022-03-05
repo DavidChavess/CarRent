@@ -1,4 +1,4 @@
-# CarService
+# CarService :car: :truck: :taxi:
 
 ## Objetivo 
 - Criar uma aplicação web para alugueis de veiculos. 
